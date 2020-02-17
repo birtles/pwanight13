@@ -43,6 +43,9 @@ link.href = window.location.search.match(/print-pdf/gi)
 document.getElementsByTagName('head')[0].appendChild(link);
 </script>
 
+<script src="js/react.development.js"></script>
+<script src="js/react-dom.development.js"></script>
+
 <style>
 .reveal pre {
   font-size: 24px;
@@ -1297,6 +1300,170 @@ button.onclick = () => {
 }
 #style-change-tips > ul > li {
   margin-top: 1em;
+}
+</style>
+</section>
+
+<section id="css-transitions-react" class="panel-example"
+  data-transition="fade-out">
+<div class="side-by-side">
+  <pre><code class="hljs jsx" data-trim data-noescape>
+const PopupButton = () => {
+  const [isShowing, setIsShowing] = React.useState(false);
+
+  const panelRef = React.useRef(null);
+<span class="highlight">  React.useLayoutEffect(() => {
+    panelRef.current.style.transform = 'scale(1)';
+  }, [isShowing, panelRef.current]);</span>
+
+  const buttonClick = React.useCallback(() => {
+    setIsShowing(!isShowing);
+  }, [isShowing]);
+
+  return (<>
+    &lt;button onClick={buttonClick} />
+    {isShowing ? (
+      &lt;div ref={panelRef}
+<span class="highlight">        style={{ transition: 'transform .5s', transform: 'scale(0)' }}></span>
+        ハロー！
+      &lt;/div>
+    ) : null}
+  &lt;/>);
+};
+  </code></pre>
+  <div class="panel-container">
+  </div>
+</div>
+<script>
+(() => {
+  const PopupButton = () => {
+    const [isShowing, setIsShowing] = React.useState(false);
+
+    const panelRef = React.useRef(null);
+    React.useLayoutEffect(() => {
+      if (panelRef.current) {
+        panelRef.current.style.transform = 'scale(1)';
+      }
+    }, [isShowing, panelRef.current]);
+
+    const buttonClick = React.useCallback(() => {
+      setIsShowing(!isShowing);
+    }, [isShowing]);
+
+    const button = React.createElement(
+      'button',
+      { onClick: buttonClick, key: 'button', className: 'button' },
+      'Button'
+    );
+    const children = [button];
+    if (isShowing) {
+      console.log('Adding panel');
+      const panel = React.createElement('div', {
+        ref: panelRef,
+        className: 'panel',
+        key: 'panel',
+        style: { transition: 'transform .5s', transform: 'scale(0)' },
+      }, 'ハロー！');
+      children.push(panel);
+    }
+
+    const fragment = React.createElement(React.Fragment, null, children);
+
+    return fragment;
+  };
+
+  const container = document.querySelector(
+    '#css-transitions-react .panel-container'
+  );
+  ReactDOM.render(React.createElement(PopupButton), container);
+})();
+</script>
+<style>
+#css-transitions-react pre {
+  font-size: 15px;
+}
+</style>
+</section>
+
+<section id="css-transitions-react-fixed" class="panel-example"
+  data-transition="fade-out">
+<div class="side-by-side">
+  <pre><code class="hljs jsx" data-trim data-noescape>
+const PopupButton = () => {
+  const [isShowing, setIsShowing] = React.useState(false);
+
+  const panelRef = React.useRef(null);
+  React.useLayoutEffect(() => {
+<span class=highlight>    getComputedStyle(panelRef.current).transform;</span>
+    panelRef.current.style.transform = 'scale(1)';
+  }, [isShowing, panelRef.current]);
+
+  const buttonClick = React.useCallback(() => {
+    setIsShowing(!isShowing);
+  }, [isShowing]);
+
+  return (<>
+    &lt;button onClick={buttonClick} />
+    {isShowing ? (
+      &lt;div ref={panelRef}
+        style={{ transition: 'transform .5s', transform: 'scale(0)' }}>
+        ハロー！
+      &lt;/div>
+    ) : null}
+  &lt;/>);
+};
+  </code></pre>
+  <div class="panel-container">
+  </div>
+</div>
+<script>
+(() => {
+  const PopupButton = () => {
+    const [isShowing, setIsShowing] = React.useState(false);
+
+    const panelRef = React.useRef(null);
+    React.useLayoutEffect(() => {
+      if (panelRef.current) {
+        getComputedStyle(panelRef.current).transform;
+        panelRef.current.style.transform = 'scale(1)';
+      }
+    }, [isShowing, panelRef.current]);
+
+    const buttonClick = React.useCallback(() => {
+      setIsShowing(!isShowing);
+    }, [isShowing]);
+
+    const button = React.createElement(
+      'button',
+      { onClick: buttonClick, key: 'button', className: 'button' },
+      'Button'
+    );
+    const children = [button];
+    if (isShowing) {
+      console.log('Adding panel');
+      const panel = React.createElement('div', {
+        ref: panelRef,
+        className: 'panel',
+        key: 'panel',
+        style: { transition: 'transform .5s', transform: 'scale(0)' },
+      }, 'ハロー！');
+      children.push(panel);
+    }
+
+    const fragment = React.createElement(React.Fragment, null, children);
+
+    return fragment;
+  };
+
+  const container = document.querySelector(
+    '#css-transitions-react-fixed .panel-container'
+  );
+  ReactDOM.render(React.createElement(PopupButton), container);
+})();
+</script>
+<style>
+#css-transitions-react-fixed pre {
+  font-size: 15px;
 }
 </style>
 </section>
