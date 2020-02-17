@@ -1,0 +1,1385 @@
+<!doctype html>
+<html lang=ja>
+<head>
+<meta charset=utf-8>
+<title>PWA開発者の知るべきアニメーションの5個</title>
+<meta name="title" content="PWA開発者の知るべきアニメーションの5個">
+<meta name="author" content="Brian Birtles">
+
+<meta property="og:title" content="PWA開発者の知るべきアニメーションの5個">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://birtles.github.io/pwanight13/index.html">
+<meta property="og:article:published_time" content="2020-02-19T00:00:00+0000">
+<meta property="og:article:author" content="Brian Birtles">
+<meta property="og:image"
+  content="https://birtles.github.io/pwanight13/preview.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="675">
+<meta property="og:locale" content="ja_JP">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@brianskold">
+
+<meta name="apple-mobile-web-app-title" content="PWA開発者の知るべきアニメーションの5個">
+<meta name="theme-color" content="#3d6bd6">
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+<meta name="viewport"
+  content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+
+<link rel="stylesheet" href="css/reveal.css">
+<link rel="stylesheet" href="css/theme/pwanight13.css" id="theme">
+
+<!-- For syntax highlighting -->
+<link rel="stylesheet" href="lib/css/github-gist.css">
+
+<!-- Printing and PDF exports -->
+<script>
+const link = document.createElement('link');
+link.rel = 'stylesheet';
+link.type = 'text/css';
+link.href = window.location.search.match(/print-pdf/gi)
+  ? 'css/print/pdf.css'
+  : 'css/print/paper.css';
+document.getElementsByTagName('head')[0].appendChild(link);
+</script>
+
+<style>
+.reveal pre {
+  font-size: 24px;
+  display: block;
+  position: relative;
+  width: 90%;
+  margin: 15px auto;
+  text-align: left;
+  font-family: monospace;
+  line-height: 1.2em;
+  word-wrap: break-word;
+  box-shadow: 0px 0px 6px rgba(0, 0, 0, 0.3);
+}
+
+.reveal pre code {
+  font-family: "Courier New", monospace;
+  word-wrap: normal;
+  text-align: left;
+  padding: 1em;
+  font-weight: bold;
+}
+
+.reveal pre code .highlight {
+  background-color: var(--green-10);
+}
+
+/*********************************************
+ * CODE SAMPLE AND LIVE PREVIEW
+ *********************************************/
+.reveal .slides .side-by-side {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+.reveal .slides .side-by-side > .target-content {
+  padding-left: 1em;
+  padding-right: 1em;
+}
+
+/*********************************************
+ * SORT OF FULL-SCREEN PICTURE, but not cropped
+ *********************************************/
+.reveal .slides > section.fit-picture {
+  padding: 0;
+  margin: 0;
+}
+
+.reveal .fit-picture > img {
+  height: 700px;
+  border: 0;
+  margin: 0;
+}
+
+/*********************************************
+ * COMPATIBILITY NOTES
+ *********************************************/
+.reveal .compat-note {
+  position: absolute;
+  display: inline-block;
+  top: 1em;
+  right: 1em;
+  left: 1em;
+  z-index: 100;
+  padding: 1em;
+  background: hsl(48, 100%, 88%);
+  box-shadow: 5px 10px 5px hsla(42, 15%, 13%, 0.3);
+}
+</style>
+</head>
+
+<body>
+<div class="reveal">
+<div class="slides">
+
+<section id="title" class="title-slide" data-background="var(--green-10)">
+<h1>
+  PWA開発者の知るべき<br>
+  <span class="highlight">アニメーションの5個</span>
+</h1>
+<h2>
+  PWA Night vol. 13・<time datetime="2020-02-19">2020-02-19</time><br>
+  <a href="https://birchill.co.jp">株式会社 Birchill</a>,
+  <a href="https://twitter.com/brianskold">Brian Birtles</a>
+</h2>
+<style>
+#title h1 {
+  font-size: 80px;
+  font-weight: 800;
+  color: var(--green-dark);
+  line-height: 1.2;
+}
+#title h1 .highlight {
+  color: var(--red-6);
+  font-size: 100px;
+  text-shadow: var(--red-2) 0px 3px 3px;
+}
+#title h1 .parenthetical {
+  font-family: 'Nanum Pen Script';
+  font-size: 0.5em;
+  font-weight: 400;
+}
+#title h2 {
+  margin-top: 2.5em;
+  color: var(--green-dark);
+  font-size: 40px;
+  font-weight: 600;
+}
+#title h2 a,
+#title h2 a:visited {
+  color: var(--green-dark);
+  text-decoration: underline dotted var(--green-dark) 2px;
+}
+</style>
+</section>
+
+<section id="about-me">
+<h2>自己紹介</h2>
+<ul class="grid">
+  <li class="fragment fade-in"><img src="img/koala.svg"></li>
+  <li class="fragment fade-in"><img src="img/tokyo-tower.svg"></li>
+  <li class="fragment fade-in"><figure><img
+      src="img/firefox-logo.svg"><figcaption>2004~2019</figcaption></figure></li>
+  <li class="fragment fade-in"><figure><img
+      src="img/w3c-member.svg"><figcaption class=smaller>SVG WG 2011~<br>
+        CSS WG 2015~</figcaption></figure></li>
+  <li class="fragment fade-in"><figure><a href="https://birchill.co.jp"><img
+      src="img/birchill-logo.svg"></a><figcaption>2019~</figcaption
+    ></figure></li>
+</ul>
+<style>
+#about-me ul.grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  width: 100%;
+  margin: 0;
+}
+#about-me ul.grid li {
+  list-style: none;
+
+  width: 240px;
+  height: 240px;
+  border-radius: 120px;
+  margin-left: 5px;
+  margin-right: 5px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+#about-me ul.grid li.fragment.current-fragment {
+  background: var(--green-10);
+}
+#about-me ul.grid li > img {
+  width: 200px;
+  border: none;
+  box-shadow: none;
+  background: transparent;
+}
+#about-me ul.grid li > img.shrink {
+  width: 150px;
+}
+#about-me ul.grid li > figure {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 100%;
+  justify-content: center;
+}
+#about-me ul.grid li > figure > a {
+  /*
+   * I simply ran out of time to work out what on earth flex box is doing here.
+   * CSS is the worst.
+   */
+  display: contents;
+}
+#about-me ul.grid li > figure > * {
+  /* If I use flex: 1, Chrome does something awful */
+  flex: 0 1 auto;
+}
+#about-me ul.grid li > figure img {
+  border: none;
+  margin: 0;
+  width: 140px;
+  box-shadow: none;
+  background: transparent;
+}
+#about-me ul.grid li > figure > figcaption {
+  font-size: 25px;
+  margin-top: 15px;
+}
+#about-me ul.grid li > figure > figcaption.smaller {
+  font-size: 20px;
+}
+</style>
+</section>
+
+<section id="about-birchill">
+<h2><a href="https://birchill.co.jp" target=_blank><img class=logo
+      src="img/birchill-logo-yoko.svg"></a>とは&hellip;</h2>
+<ul>
+  <li>株式会社<ruby>Birchill<rp>(<rt>バーチル<rp>)</ruby>
+  <li>令和元年6月設立
+  <li>全員元Mozilla Firefoxエンジニア
+  <li>現在に至るまでブラウザー開発
+    <ul>
+      <li>C++, Rust, JS
+    </ul>
+  <li class=fragment>Webアプリの開発
+    <ul>
+      <li>TypeScript, React/Preact, Redux, PouchDB
+      <li>Tailwind CSS
+    </ul>
+</ul>
+<style>
+#about-birchill h2 {
+  margin-bottom: 1em;
+}
+#about-birchill h2 .logo {
+  height: 1em;
+  border-width: 0;
+  box-shadow: none;
+  margin: 0;
+  margin-bottom: -.1em;
+}
+#about-birchill > ul > li {
+  margin-bottom: 0.5em;
+}
+#about-birchill ul ul {
+  font-size: 70%;
+}
+</style>
+</section>
+
+<section id="in-past-episodes">
+<h2>以前&hellip;</h2>
+<ul>
+  <li>
+    <a href="https://birtles.github.io/mozdev2019/" target="_blank"><img
+      src="img/cssconf2019.png" alt="10 things I wish people knew about Web
+      animation"></a>
+    <span class=title>10 things I wish people knew about Web animation</span>
+    <span class=link><a href="https://birtles.github.io/cssconf2019/"
+      target=_blank>birtles.github.io/cssconf2019/</a></span>
+    <span class=event>CSSConf 2019</span>
+    <span class=location>深セン</span>
+    <span class=date>2019-03-30</span>
+  <li>
+    <a href="https://birtles.github.io/cssconf2019/" target="_blank"><img
+      src="img/mozdev2019.png" alt="10 things I hate about animation (and how to
+      fix them)"></a>
+    <span class=title>アニメーションについて嫌いな10個</span>
+    <span class=link><a href="https://birtles.github.io/mozdev2019/"
+      target=_blank>birtles.github.io/mozdev2019/</a></span>
+    <span class=event>MDN Developer Roadshow</span>
+    <span class=location>東京、ソール</span>
+    <span class=date>2019-11-11, 2019-11-13</span>
+<ul>
+<style>
+#in-past-episodes ul {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  justify-content: center;
+  width: 100%;
+  margin: 0;
+}
+#in-past-episodes ul li {
+  list-style: none;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+
+  font-size: 25px;
+}
+#in-past-episodes ul li img {
+  width: 350px;
+  display: block;
+}
+#in-past-episodes ul li .title {
+  font-weight: 600;
+}
+</style>
+</section>
+
+<section id="title-again">
+<h1>
+  PWA開発者の知るべき<br>
+  <span class="highlight">アニメーションの5個</span>
+</h1>
+<style>
+#title-again h1 {
+  font-size: 70px;
+  font-weight: 800;
+  color: var(--green-dark);
+  line-height: 1.4;
+}
+#title-again h1 .highlight {
+  color: var(--red-6);
+  font-size: 80px;
+  text-shadow: var(--red-2) 0px 3px 3px;
+}
+</style>
+</section>
+
+<section id="transitions-are-hard-ok" data-background="var(--green-10)">
+  <h2>① CSS Transitionを発生させるため、<span class=highlight>「スタイルの変更」</span></h2>
+<style>
+#transitions-are-hard-ok .highlight {
+  color: var(--red-6);
+  text-shadow: var(--red-2) 0px 3px 3px;
+}
+</style>
+</section>
+
+<section id="css-transitions-button" data-transition="fade-in">
+<div class="side-by-side">
+  <pre><code class="css" data-trim contenteditable=true
+  spellcheck=false>
+.button {
+  background: hsl(77, 86%, 81%);
+  transition: background-color .25s,
+              transform .15s;
+}
+.button:hover {
+  background: hsl(77, 86%, 91%);
+  transform: scale(1.05);
+}
+  </code></pre>
+  <div class="target-content">
+    <button class="button">Button</button>
+  </div>
+</div>
+<style>
+#css-transitions-button .side-by-side > .target-content .button {
+  border: 2px solid var(--green-dark);
+  color: var(--green-dark);
+  border-radius: 10px;
+  box-shadow: 1px 2px 3px 0 hsla(106.8, 37%, 36.1%, 30%);
+  padding: 1em;
+  font-size: 30px;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+}
+#css-transitions-button .side-by-side > .target-content .button {
+  background: hsl(76.7, 86%, 81%);
+  transition: background-color .25s,
+              transform .15s;
+}
+#css-transitions-button .side-by-side > .target-content .button:hover {
+  background: hsl(76.7, 86%, 91%);
+  transform: scale(1.05);
+}
+</style>
+</section>
+
+<section id="css-transitions-in-a-pwa" class="panel-example">
+<button class="button">Button</button>
+<script>
+(() => {
+  const button = document.querySelector(
+    '#css-transitions-in-a-pwa .button'
+  );
+  const parent = document.querySelector('#css-transitions-in-a-pwa');
+
+  button.onclick = () => {
+    // If there is an existing panel, remove it
+    const existingPanel = document.querySelector(
+      '#css-transitions-in-a-pwa .panel'
+    );
+    if (existingPanel) {
+      existingPanel.remove();
+      return;
+    }
+
+    // Create the panel
+    const panel = document.createElement('div');
+    panel.classList.add('panel');
+    panel.textContent = 'ハロー';
+    panel.onclick = () => panel.remove();
+    parent.appendChild(panel);
+
+    // Stretch it in
+    panel.style.transform = 'scale(0)';
+    getComputedStyle(panel).transform;
+    panel.style.transition = 'transform .5s';
+    panel.style.transform = 'scale(1)';
+  };
+})();
+</script>
+<style>
+.panel-example .panel {
+  position: absolute;
+  width: 10em;
+  top: 0;
+  left: calc(50% - 5em);
+  z-index: 10;
+  background: white;
+  border: 1px solid hsl(41, 8%, 61%);
+  border-radius: 20px;
+  box-sizing: border-box;
+  box-shadow: 3px 3px 5px hsl(41, 8%, 61%);
+  padding: 1em;
+}
+.panel-example .button {
+  font-size: 30px;
+  margin: 2em;
+}
+</style>
+</section>
+
+<section id="css-transitions-overlay-code" class="panel-example">
+<div class="side-by-side">
+  <pre><code class="hljs js" data-trim data-noescape>
+button.onclick = () => {
+<span class="highlight fragment">  // Make the panel
+  const panel = document.createElement('div');
+  panel.classList.add('panel');
+  panel.textContent = 'ハロー！';
+  parent.appendChild(panel);</span>
+
+<span class="highlight fragment">  // Stretch it in
+  panel.style.transform = 'scale(0)';
+  panel.style.transition = 'transform .5s';
+  panel.style.transform = 'scale(1)';</span>
+};
+  </code></pre>
+  <div>
+    <button class="button">Button</button>
+  </div>
+</div>
+<script>
+(() => {
+  const button = document.querySelector(
+    '#css-transitions-overlay-code .button'
+  );
+  const parent = document.querySelector('#css-transitions-overlay-code');
+
+  button.onclick = () => {
+    // If there is an existing panel, remove it
+    const existingPanel = document.querySelector(
+      '#css-transitions-overlay-code .panel'
+    );
+    if (existingPanel) {
+      existingPanel.remove();
+      return;
+    }
+
+    // Create the panel
+    const panel = document.createElement('div');
+    panel.classList.add('panel');
+    panel.textContent = 'ハロー！';
+    parent.appendChild(panel);
+
+    // Stretch in
+    panel.style.transform = 'scale(0)';
+    panel.style.transition = 'transform .5s';
+    panel.style.transform = 'scale(1)';
+  };
+})();
+</script>
+<style>
+#css-transitions-overlay-code .fragment.highlight {
+  opacity: 1;
+  visibility: visible;
+  background-color: transparent;
+}
+#css-transitions-overlay-code .fragment.highlight.current-fragment {
+  background-color: var(--green-10);
+}
+</style>
+</section>
+
+<section id="css-transitions-frame-timing" data-transition="fade">
+<svg width="800" viewBox="0 0 960 700" class="frame-timing">
+  <defs>
+    <marker id="arrow-neutral-4" viewBox="0 -5 10 10" orient="auto"
+      markerWidth="5" markerHeight="5">
+      <path d="M0-5l10 5l-10 5z" style="fill: var(--neutral-4)"/>
+    </marker>
+    <marker id="arrow-neutral-4-reverse" viewBox="-10 -5 10 10" orient="auto"
+      markerWidth="5" markerHeight="5">
+      <path d="M0-5l-10 5l10 5z" style="fill: var(--neutral-4)"/>
+    </marker>
+    <svg id="mini-panel" viewBox="0 0 100 100">
+      <defs>
+        <filter id="panel-shadow" filterUnits="userSpaceOnUse"
+          x="0" y="0" width="100" height="100">
+          <feDropShadow dx="2" dy="2" stdDeviation="2" flood-color="#222"
+            flood-opacity="0.4"/>
+        </filter>
+      </defs>
+      <rect x="2" y="2" width="90" height="90" rx="5" ry="5" fill="white"
+        stroke="#222" filter="url(#panel-shadow)"/>
+      <text x="45" y="50" text-anchor="middle" font-size="15">ハロー！</text>
+    </svg>
+  </defs>
+  <g class="frame-outline">
+    <rect x="40" y="250" width="400" height="200" />
+    <rect x="520" y="250" width="400" height="200" />
+  </g>
+  <g class="frame-label fragment">
+    <text x="240" y="490">Frame 1</text>
+    <text x="720" y="490">Frame 2</text>
+  </g>
+  <g class="fragment">
+    <rect x="40" y="250" width="50" height="200" class="style"/>
+    <text x="63" y="265" class="vertical-label">Style</text>
+    <rect x="520" y="250" width="50" height="200" class="style"/>
+    <text x="543" y="265" class="vertical-label">Style</text>
+    <g class="hide">
+      <line x1="80" x2="65" y1="190" y2="250" class="connecting-line" />
+      <rect x="65" y="70" width="300" height="120" rx="10" ry="10"
+        class="callout" />
+      <text x="80" y="110" class="code">display: block;
+        <tspan x="80" dy="1.3em">opacity: 0;</tspan>
+        <tspan x="80" dy="1.3em">transform: scale(1.5);</tspan></text>
+    </g>
+    <g class="hide">
+      <line x1="560" x2="545" y1="190" y2="250" class="connecting-line" />
+      <rect x="545" y="70" width="300" height="120" rx="10" ry="10"
+        class="callout" />
+      <text x="560" y="110" class="code">display: block;
+        <tspan x="560" dy="1.3em">opacity: 1;</tspan>
+        <tspan x="560" dy="1.3em">transform: scale(1.5);</tspan></text>
+    </g>
+  </g>
+  <g class="fragment">
+    <rect x="91" y="250" width="50" height="200" class="layout"/>
+    <text x="114" y="265" class="vertical-label">Layout</text>
+    <rect x="571" y="250" width="50" height="200" class="layout"/>
+    <text x="594" y="265" class="vertical-label">Layout</text>
+    <g class="hide">
+      <line x1="130" x2="116" y1="210" y2="250" class="connecting-line" />
+      <g transform="translate(115 50)">
+        <rect width="180" height="160" rx="10" ry="10" class="callout" />
+        <rect x="20" y="30" width="100" height="100" class="element-outline" />
+        <line x1="135" x2="135" y1="40" y2="120" class="element-dimension"/>
+        <text x="155" y="80" class="dimension-label"
+          style="writing-mode: vertical-rl">120px</text>
+      </g>
+    </g>
+    <g class="hide">
+      <line x1="610" x2="596" y1="210" y2="250" class="connecting-line" />
+      <g transform="translate(595 50)">
+        <rect width="180" height="160" rx="10" ry="10" class="callout" />
+        <rect x="20" y="30" width="100" height="100" class="element-outline" />
+        <line x1="135" x2="135" y1="40" y2="120" class="element-dimension"/>
+        <text x="155" y="80" class="dimension-label"
+          style="writing-mode: vertical-rl">120px</text>
+      </g>
+    </g>
+  </g>
+  <g class="fragment">
+    <rect x="142" y="250" width="50" height="200" class="painting"/>
+    <text x="165" y="265" class="vertical-label">Painting</text>
+    <line x1="180" x2="167" y1="200" y2="250" class="connecting-line" />
+    <rect x="165" y="50" width="150" height="150" rx="10" ry="10"
+      class="callout"/>
+    <use href="#mini-panel" x="190" y="80" width="100" height="100"
+      opacity="0.2"/>
+
+    <rect x="622" y="250" width="50" height="200" class="painting"/>
+    <text x="645" y="265" class="vertical-label">Painting</text>
+    <line x1="660" x2="647" y1="200" y2="250" class="connecting-line" />
+    <rect x="645" y="50" width="150" height="150" rx="10" ry="10"
+      class="callout"/>
+    <use href="#mini-panel" x="670" y="80" width="100" height="100"/>
+  </g>
+</svg>
+<style>
+.frame-timing .frame-outline {
+  fill: var(--neutral-8);
+  stroke: var(--neutral-6);
+  stroke-width: 2;
+}
+.frame-timing .frame-label {
+  fill: var(--neutral-5);
+  font-size: 30px;
+  text-anchor: middle;
+}
+.frame-timing .callout {
+  fill: white;
+  stroke: var(--neutral-4);
+  stroke-width: 2px;
+  stroke-dasharray: 3px 7px;
+  stroke-linecap: round;
+}
+.frame-timing .connecting-line {
+  stroke: var(--neutral-4);
+  stroke-width: 2px;
+  stroke-dasharray: 3px 7px;
+  stroke-linecap: round;
+  fill: none;
+}
+.frame-timing .style,
+.frame-timing .layout {
+  fill: var(--style-purple);
+  stroke: var(--style-purple-dark);
+  stroke-width: 2px;
+}
+.frame-timing .painting {
+  fill: var(--green-light);
+  stroke: var(--green);
+  stroke-width: 2px;
+}
+.frame-timing .vertical-label {
+  writing-mode: vertical-rl;
+  fill: var(--neutral-1);
+  font-size: 30px;
+}
+.frame-timing .code {
+  fill: var(--neutral-1);
+  font-size: 20px;
+  font-family: "Courier New", monospace;
+}
+.frame-timing .element-outline {
+  stroke: var(--neutral-4);
+  fill: none;
+}
+.frame-timing .element-dimension {
+  stroke: var(--neutral-4);
+  stroke-width: 2px;
+  marker-start: url(#arrow-neutral-4-reverse);
+  marker-end: url(#arrow-neutral-4);
+}
+.frame-timing .dimension-label {
+  fill: var(--neutral-4);
+  text-anchor: middle;
+  font-size: 20px;
+}
+
+#css-transitions-frame-timing .fragment .hide {
+  transition: opacity .3s;
+}
+#css-transitions-frame-timing .fragment:not(.current-fragment) .hide {
+  opacity: 0;
+}
+</style>
+</section>
+
+<section id="css-transitions-creation" class="frame-explanation"
+  data-transition="fade">
+<svg width="800" viewBox="0 0 960 700" class="frame-timing">
+  <g class="frame-outline">
+    <rect x="40" y="250" width="400" height="200" />
+    <rect x="520" y="250" width="400" height="200" />
+  </g>
+  <g class="frame-label">
+    <text x="240" y="490">Frame 1</text>
+    <text x="720" y="490">Frame 2</text>
+  </g>
+  <g>
+    <rect x="40" y="250" width="50" height="200" class="style"/>
+    <text x="63" y="265" class="vertical-label">Style</text>
+    <rect x="520" y="250" width="50" height="200" class="style"/>
+    <text x="543" y="265" class="vertical-label">Style</text>
+    <g>
+      <line x1="80" x2="65" y1="190" y2="250" class="connecting-line" />
+      <rect x="65" y="70" width="300" height="120" rx="10" ry="10"
+        class="callout" />
+      <text x="80" y="110" class="code">display: block;
+        <tspan x="80" dy="1.3em" class=highlight>opacity: 0;</tspan>
+        <tspan x="80" dy="1.3em">transform: scale(1.5);</tspan></text>
+    </g>
+    <g>
+      <line x1="560" x2="545" y1="190" y2="250" class="connecting-line" />
+      <rect x="545" y="70" width="300" height="120" rx="10" ry="10"
+        class="callout" />
+      <text x="560" y="110" class="code">display: block;
+        <tspan x="560" dy="1.3em" class=highlight>opacity: 1;</tspan>
+        <tspan x="560" dy="1.3em">transform: scale(1.5);</tspan></text>
+    </g>
+  </g>
+  <g>
+    <rect x="91" y="250" width="50" height="200" class="layout"/>
+    <text x="114" y="265" class="vertical-label">Layout</text>
+    <rect x="571" y="250" width="50" height="200" class="layout"/>
+    <text x="594" y="265" class="vertical-label">Layout</text>
+  </g>
+  <g>
+    <rect x="142" y="250" width="50" height="200" class="painting"/>
+    <text x="165" y="265" class="vertical-label">Painting</text>
+    <rect x="622" y="250" width="50" height="200" class="painting"/>
+    <text x="645" y="265" class="vertical-label">Painting</text>
+  </g>
+</svg>
+<div class="popup fragment">
+  <ul>
+    <li><span class="prop-name">opacity</span>の変更
+      <span class="prop-value">0</span> &rarr;
+      <span class="prop-value">1</span> !
+    <li><span class="prop-name">transition-property</span> に
+      <span class="prop-name">opacity</span> が含まれており&hellip;
+    <li>対応する<span class="prop-name">transition-duration</span>
+      <code>+</code>
+      <span class="prop-name">transition-delay</span>
+      <code>&gt;</code> <span class="prop-value">0s</span>&hellip;
+    <li><span class="action">&rArr; transitionを生成する！🎉</span>
+  </ul>
+</div>
+<style>
+.frame-timing .code .highlight {
+  fill: var(--style-purple-dark);
+  font-weight: bold;
+}
+.frame-explanation .popup {
+  width: 80%;
+  margin-left: auto;
+  margin-right: auto;
+  position: relative;
+  top: -150px;
+  font-size: 25px;
+  background: white;
+  border: 1px solid var(--neutral-6);
+  border-radius: 20px;
+  box-sizing: border-box;
+  box-shadow: 3px 3px 5px var(--neutral-8);
+  padding: 1em;
+}
+.frame-explanation .popup .prop-name {
+  color: var(--green-dark);
+}
+.frame-explanation .popup .prop-value {
+  color: var(--pink);
+}
+.frame-explanation .action {
+  color: var(--style-purple-dark);
+  font-weight: 500;
+}
+</style>
+</section>
+
+<section id="css-transitions-overlay-problem" class="frame-explanation"
+  data-transition="fade">
+<svg width="800" viewBox="0 0 960 700" class="frame-timing">
+  <g class="frame-outline">
+    <rect x="40" y="250" width="400" height="200" />
+    <rect x="520" y="250" width="400" height="200" />
+  </g>
+  <g class="frame-label">
+    <text x="240" y="490">Frame 1</text>
+    <text x="720" y="490">Frame 2</text>
+  </g>
+  <g>
+    <rect x="40" y="250" width="50" height="200" class="style"/>
+    <text x="63" y="265" class="vertical-label">Style</text>
+    <rect x="91" y="250" width="50" height="200" class="layout"/>
+    <text x="114" y="265" class="vertical-label">Layout</text>
+    <rect x="142" y="250" width="50" height="200" class="painting"/>
+    <text x="165" y="265" class="vertical-label">Painting</text>
+  </g>
+  <g class="fragment" data-fragment-index="1">
+    <line x1="233" x2="233" y1="210" y2="250" class="connecting-line" />
+  </g>
+  <g class="fragment" data-fragment-index="0">
+    <rect x="193" y="250" width="80" height="200" class="script"/>
+    <text x="245" y="265" class="vertical-label">Script
+      <tspan dx="-1em" y="265">(onclick)</tspan></text>
+  </g>
+  <g class="fragment" data-fragment-index="3">
+    <line x1="545" x2="545" y1="450" y2="540" class="connecting-line" />
+  </g>
+  <g class="fragment" data-fragment-index="2">
+    <rect x="520" y="250" width="50" height="200" class="style"/>
+    <text x="543" y="265" class="vertical-label">Style</text>
+  </g>
+</svg>
+<div class="code-block fragment" data-fragment-index="1">
+  <pre><code class="hljs js" data-trim>
+  button.onclick = () => {
+    const panel = document.createElement('div');
+    ...
+    panel.style.transform = 'scale(0)';
+    panel.style.transition = 'transform .5s';
+    panel.style.transform = 'scale(1)';
+  };
+  </code></pre>
+</div>
+<div class="popup fragment" data-fragment-index="3">
+  <ul>
+    <li><span class="prop-name">transform</span> は <span
+              class="prop-value">scale(1)</span>.
+    <li>前回の <span class="prop-name">transform</span> は... ない.
+  </ul>
+</div>
+<style>
+.frame-timing .script {
+  fill: var(--script-yellow);
+  stroke: var(--script-yellow-dark);
+  stroke-width: 2px;
+}
+#css-transitions-overlay-problem > .code-block {
+  display: flex;
+  position: absolute;
+  top: 20px;
+  width: 100%;
+}
+#css-transitions-overlay-problem > .code-block > pre {
+  font-size: 15px;
+  flex: 0 1 50%;
+}
+</style>
+</section>
+
+<section id="css-transitions-attempt-one" class="panel-example"
+  data-transition="fade-out">
+<div class="side-by-side">
+  <pre><code class="hljs js" data-trim data-noescape>
+button.onclick = () => {
+  // Make the panel
+  const panel = document.createElement('div');
+  ...
+
+  // Stretch it in
+  panel.style.transform = 'scale(0)';
+  panel.style.transition = 'transform .5s';
+<span class="highlight">  requestAnimationFrame(() => {
+    panel.style.transform = 'scale(1)';
+  });</span>
+};
+  </code></pre>
+  <div>
+    <button class="button">Button</button>
+  </div>
+</div>
+<script>
+(() => {
+  const button = document.querySelector(
+    '#css-transitions-attempt-one .button'
+  );
+  const parent = document.querySelector('#css-transitions-attempt-one');
+
+  button.onclick = () => {
+    // If there is an existing panel, remove it
+    const existingPanel = document.querySelector(
+      '#css-transitions-attempt-one .panel'
+    );
+    if (existingPanel) {
+      existingPanel.remove();
+      return;
+    }
+
+    // Create the panel
+    const panel = document.createElement('div');
+    panel.classList.add('panel');
+    panel.textContent = 'ハロー！';
+    parent.appendChild(panel);
+
+    // Stretch in
+    panel.style.transform = 'scale(0)';
+    // There is something very buggy with Chrome here. If you move the following
+    // line _inside_ the rAF you actually DO get a transition (but you
+    // shouldn't).
+    panel.style.transition = 'transform .5s';
+    requestAnimationFrame(() => {
+      panel.style.transform = 'scale(1)';
+    });
+  };
+})();
+</script>
+</section>
+
+<section id="css-transitions-attempt-one-explanation"
+  class="frame-explanation" data-transition="fade">
+<svg width="800" viewBox="0 0 960 700" class="frame-timing">
+  <g class="frame-outline">
+    <rect x="40" y="250" width="400" height="200" />
+    <rect x="520" y="250" width="400" height="200" />
+  </g>
+  <g class="frame-label">
+    <text x="240" y="490">Frame 1</text>
+    <text x="720" y="490">Frame 2</text>
+  </g>
+  <g>
+    <rect x="40" y="250" width="50" height="200" class="style"/>
+    <text x="63" y="265" class="vertical-label">Style</text>
+    <rect x="91" y="250" width="50" height="200" class="layout"/>
+    <text x="114" y="265" class="vertical-label">Layout</text>
+    <rect x="142" y="250" width="50" height="200" class="painting"/>
+    <text x="165" y="265" class="vertical-label">Painting</text>
+  </g>
+  <line x1="233" x2="233" y1="210" y2="250" class="connecting-line" />
+  <rect x="193" y="250" width="80" height="200" class="script"/>
+  <text x="245" y="265" class="vertical-label">Script
+    <tspan dx="-1em" y="265">(onclick)</tspan></text>
+  <g class="fragment" data-fragment-index="1">
+    <rect x="520" y="250" width="60" height="200" class="script"/>
+    <text x="560" y="265" class="vertical-label" style="font-size: 22px"
+      >request-<tspan dx="-1em" y="265">AnimationFrame</tspan></text>
+  </g>
+  <g class="fragment" data-fragment-index="2">
+    <line x1="605" x2="605" y1="450" y2="540" class="connecting-line" />
+    <rect x="582" y="250" width="50" height="200" class="style"/>
+    <text x="604" y="265" class="vertical-label">Style</text>
+  </g>
+</svg>
+<div class="code-block">
+  <pre><code class="hljs js" data-trim>
+  button.onclick = () => {
+    const panel = document.createElement('div');
+    ...
+    panel.style.transform = 'scale(0)';
+    requestAnimationFrame(() => {
+      panel.style.transform = 'scale(1)';
+    });
+  };
+  </code></pre>
+</div>
+<div class="popup fragment" data-fragment-index="2">
+  <ul>
+    <li><span class="prop-name">transform</span> は <span
+              class="prop-value">scale(1)</span>.
+    <li>前回の <span class="prop-name">transform</span> は... まだない.
+  </ul>
+</div>
+<style>
+#css-transitions-attempt-one-explanation > .code-block {
+  display: flex;
+  position: absolute;
+  top: 20px;
+  width: 100%;
+}
+#css-transitions-attempt-one-explanation > .code-block > pre {
+  font-size: 15px;
+  flex: 0 1 50%;
+}
+</style>
+</section>
+
+<section id="css-transitions-panel-attempt-two" class="panel-example"
+  data-transition="fade">
+<div class="side-by-side">
+  <pre><code class="hljs js" data-trim data-noescape>
+button.onclick = () => {
+  // Make the panel
+  const panel = document.createElement('div');
+  ...
+
+  // Stretch it in
+  panel.style.transform = 'scale(0)';
+  panel.style.transition = 'transform .5s';
+<span class="highlight">  requestAnimationFrame(() => {
+    requestAnimationFrame(() => {
+      panel.style.transform = 'scale(1)';
+    });
+  });</span>
+};
+  </code></pre>
+  <div>
+    <button class="button">Button</button>
+  </div>
+</div>
+<script>
+(() => {
+  const button = document.querySelector(
+    '#css-transitions-panel-attempt-two .button'
+  );
+  const parent
+    = document.querySelector('#css-transitions-panel-attempt-two');
+
+  button.onclick = () => {
+    // If there is an existing panel, remove it
+    const existingPanel = document.querySelector(
+      '#css-transitions-panel-attempt-two .panel'
+    );
+    if (existingPanel) {
+      existingPanel.remove();
+      return;
+    }
+
+    // Create the panel
+    const panel = document.createElement('div');
+    panel.classList.add('panel');
+    panel.textContent = 'ハロー！';
+    parent.appendChild(panel);
+
+    // Stretch in
+    panel.style.transform = 'scale(0)';
+    panel.style.transition = 'transform .5s';
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        panel.style.transform = 'scale(1)';
+      });
+    });
+  };
+})();
+</script>
+</section>
+
+<section id="css-transitions-attempt-two-explanation"
+  class="frame-explanation" data-transition="fade">
+<svg width="800" viewBox="39 100 1362 700" class="frame-timing">
+  <g class="frame-outline">
+    <rect x="40" y="250" width="400" height="200" />
+    <rect x="520" y="250" width="400" height="200" />
+    <rect x="1000" y="250" width="400" height="200" />
+  </g>
+  <g class="frame-label">
+    <text x="240" y="490">Frame 1</text>
+    <text x="720" y="490">Frame 2</text>
+    <text x="1200" y="490">Frame 3</text>
+  </g>
+  <g>
+    <rect x="40" y="250" width="50" height="200" class="style"/>
+    <text x="63" y="265" class="vertical-label">Style</text>
+    <rect x="91" y="250" width="50" height="200" class="layout"/>
+    <text x="114" y="265" class="vertical-label">Layout</text>
+    <rect x="142" y="250" width="50" height="200" class="painting"/>
+    <text x="165" y="265" class="vertical-label">Painting</text>
+  </g>
+  <rect x="193" y="250" width="80" height="200" class="script"/>
+  <text x="245" y="265" class="vertical-label">Script
+    <tspan dx="-1em" y="265">(onclick)</tspan></text>
+  <g class="fragment">
+    <rect x="520" y="250" width="60" height="200" class="script"/>
+    <text x="560" y="265" class="vertical-label" style="font-size: 22px"
+      >request-<tspan dx="-1em" y="265">AnimationFrame</tspan></text>
+  </g>
+  <g class="fragment">
+    <line x1="605" x2="605" y1="450" y2="510" class="connecting-line" />
+    <rect x="582" y="250" width="50" height="200" class="style"/>
+    <text x="604" y="265" class="vertical-label">Style</text>
+    <text x="605" y="530" class="inline-note">transformの<tspan
+      x="605" dy="1.2em">計算値→ &lsquo;scale(0)&rsquo;</tspan></text>
+  </g>
+  <g class="fragment">
+    <rect x="1000" y="250" width="60" height="200" class="script"/>
+    <text x="1040" y="265" class="vertical-label" style="font-size: 22px"
+      >request-<tspan dx="-1em" y="265">AnimationFrame</tspan></text>
+  </g>
+  <g class="fragment">
+    <line x1="1084" x2="1084" y1="450" y2="510" class="connecting-line" />
+    <rect x="1062" y="250" width="50" height="200" class="style"/>
+    <text x="1085" y="265" class="vertical-label">Style</text>
+    <text x="1084" y="530" class="inline-note">transformの<tspan
+      x="1084" dy="1.2em">計算値→ &lsquo;scale(1)&rsquo;</tspan></text>
+  </g>
+</svg>
+<div class="code-block">
+  <pre><code class="hljs js" data-trim>
+  button.onclick = () => {
+    ...
+    panel.style.transform = 'scale(0)';
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        panel.style.transform = 'scale(1)';
+      });
+    });
+  };
+  </code></pre>
+</div>
+<div class="popup fragment">
+  <ul>
+    <li><span class="prop-name">transform</span> は <span
+              class="prop-value">scale(1)</span>.
+    <li>前回の <span class="prop-name">transform</span> は
+        <span class="prop-value">scale(0)</span>.
+    <li><span class="action">&rArr; transitionを生成する！🎉</span>
+  </ul>
+</div>
+<style>
+.frame-timing .inline-note {
+  text-anchor: middle;
+  fill: var(--neutral-4);
+  font-size: 25px;
+}
+#css-transitions-attempt-two-explanation > svg {
+  margin-top: 180px;
+}
+#css-transitions-attempt-two-explanation > .code-block {
+  display: flex;
+  position: absolute;
+  top: 10px;
+  width: 100%;
+}
+#css-transitions-attempt-two-explanation > .code-block > pre {
+  font-size: 15px;
+  flex: 0 1 50%;
+}
+#css-transitions-attempt-two-explanation > .popup {
+  top: -100px;
+}
+</style>
+</section>
+
+<section id="css-transitions-panel-attempt-three" class="panel-example"
+  data-transition="fade-out">
+<div class="side-by-side">
+  <pre><code class="hljs js" data-trim data-noescape>
+button.onclick = () => {
+  // Make the panel
+  const panel = document.createElement('div');
+  ...
+
+  // Stretch it in
+  panel.style.transform = 'scale(0)';
+<span class="highlight">  getComputedStyle(panel).transform;</span>
+  panel.style.transition = 'transform .5s';
+  panel.style.transform = 'scale(1)';</span>
+};
+  </code></pre>
+  <div>
+    <button class="button">Button</button>
+  </div>
+</div>
+<script>
+(() => {
+  const button = document.querySelector(
+    '#css-transitions-panel-attempt-three .button'
+  );
+  const parent
+    = document.querySelector('#css-transitions-panel-attempt-three');
+
+  button.onclick = () => {
+    // If there is an existing panel, remove it
+    const existingPanel = document.querySelector(
+      '#css-transitions-panel-attempt-three .panel'
+    );
+    if (existingPanel) {
+      existingPanel.remove();
+      return;
+    }
+
+    // Create the panel
+    const panel = document.createElement('div');
+    panel.classList.add('panel');
+    panel.textContent = 'ハロー！';
+    parent.appendChild(panel);
+
+    // Stretch in
+    panel.style.transform = 'scale(0)';
+    getComputedStyle(panel).transform;
+    panel.style.transition = 'transform .5s';
+    panel.style.transform = 'scale(1)';
+  };
+})();
+</script>
+</section>
+
+<section id="css-transitions-attempt-three-explanation"
+  class="frame-explanation" data-transition="fade">
+<svg width="800" viewBox="0 0 960 700" class="frame-timing">
+  <g class="frame-outline">
+    <rect x="40" y="250" width="400" height="200" />
+    <rect x="520" y="250" width="400" height="200" />
+  </g>
+  <g class="frame-label">
+    <text x="200" y="490">Frame 1</text>
+    <text x="720" y="490">Frame 2</text>
+  </g>
+  <g>
+    <rect x="40" y="250" width="50" height="200" class="style"/>
+    <text x="63" y="265" class="vertical-label">Style</text>
+    <rect x="91" y="250" width="50" height="200" class="layout"/>
+    <text x="114" y="265" class="vertical-label">Layout</text>
+    <rect x="142" y="250" width="50" height="200" class="painting"/>
+    <text x="165" y="265" class="vertical-label">Painting</text>
+  </g>
+  <line x1="233" x2="233" y1="210" y2="250" class="connecting-line" />
+  <rect x="193" y="250" width="80" height="200" class="script"/>
+  <text x="245" y="265" class="vertical-label">Script
+    <tspan dx="-1em" y="265">(onclick)</tspan></text>
+  <g class="fragment">
+    <rect x="274" y="250" width="50" height="200" class="style"/>
+    <text x="297" y="265" class="vertical-label">Style</text>
+    <g transform="translate(133)">
+      <rect x="193" y="250" width="80" height="200" class="script"/>
+      <text x="245" y="265" class="vertical-label"
+        style="font-size: 25px">Script
+        <tspan dx="-1em" y="265">(onclick) contd.</tspan></text>
+    </g>
+  </g>
+  <g class="fragment">
+    <line x1="299" x2="299" y1="450" y2="510" class="connecting-line" />
+    <text x="299" y="530" class="inline-note smaller">transformの<tspan
+      x="299" dy="1.2em">計算値→ &lsquo;scale(0)&rsquo;</tspan></text>
+  </g>
+  <g class="fragment">
+    <line x1="546" x2="546" y1="450" y2="510" class="connecting-line" />
+    <text x="546" y="530" class="inline-note smaller">transformの<tspan
+      x="546" dy="1.2em">計算値→ &lsquo;scale(1)&rsquo;</tspan></text>
+    <rect x="520" y="250" width="50" height="200" class="style"/>
+    <text x="545" y="265" class="vertical-label">Style</text>
+  </g>
+</svg>
+<div class="code-block">
+  <pre><code class="hljs js" data-trim data-noescape>
+  button.onclick = () => {
+    const panel = document.createElement('div');
+    ...
+    panel.style.transform = 'scale(0)';
+<span class="highlight">    getComputedStyle(panel).transform;</span>
+    panel.style.transition = 'transform .5s';
+    panel.style.transform = 'scale(1)';
+  };
+  </code></pre>
+</div>
+<div class="popup fragment">
+  <ul>
+    <li><span class="prop-name">transform</span> は <span
+              class="prop-value">scale(1)</span>.
+    <li>前回の <span class="prop-name">transform</span> は <span
+                       class="prop-value">scale(0)</span>.
+    <li><span class="action">&rarr; transitionを生成する！🎉</span>
+  </ul>
+</div>
+<style>
+#css-transitions-attempt-three-explanation > .code-block {
+  display: flex;
+  position: absolute;
+  top: 20px;
+  width: 100%;
+}
+#css-transitions-attempt-three-explanation > .code-block > pre {
+  font-size: 15px;
+  flex: 0 1 50%;
+}
+#css-transitions-attempt-three-explanation > .popup {
+  top: -100px;
+}
+.frame-timing .inline-note.smaller {
+  font-size: 22px;
+}
+</style>
+</section>
+
+<section id="style-change-tips">
+<h2>注意点</h2>
+<ul>
+  <li>以下の場合は計算されたスタイルはない&hellip;
+    <ul>
+      <li><code>createElement</code>の直後
+      <li><code>display: none</code>
+    </ul>
+  <li><code>getComputedStyle(elem)</code>だけだと、スタイルの算出は走らない！❌
+    <ul>
+      <li>&rarr; <code>getComputedStyle(elem).<em>&lt;property&gt;</em></code>👍
+    </ul>
+  <li>場合によっては<code>getComputedStyle</code>は重い
+</ul>
+<style>
+#style-change-tips ul {
+  font-size: 35px;
+}
+#style-change-tips ul code {
+  background: var(--green-light);
+  border-radius: .5em;
+  padding: 1px 15px;
+}
+#style-change-tips > ul > li {
+  margin-top: 1em;
+}
+</style>
+</section>
+
+<section id="thankyou" data-transition="fade">
+<h2>ご清聴ありがとうございました</h2>
+<div class=slides-link>
+  <a href="https://birtles.github.io/pwanight13/"
+    target="_blank">birtles.github.io/pwanight13/</a>
+</div>
+<div class=links>
+  <div class=link>
+    <a href="https://twitter.com/brianskold" target=_blank><img class=logo
+       src="img/twitter-avatar.png"></a>
+    <a href="https://twitter.com/brianskold" target=_blank>@brianskold</a>
+  </div>
+  <div class=link>
+    <a href="https://birchill.co.jp" target=_blank><img class=logo
+       src="img/birchill-logo.svg"></a>
+    <a href="https://birchill.co.jp" target=_blank>birchill.co.jp</a>
+  </div>
+</div>
+<style>
+#thankyou h2 {
+  color: var(--red-6);
+  text-shadow: var(--red-2) 0px 3px 3px;
+}
+#thankyou .slides-link,
+#thankyou .links {
+  margin: 1em 0;
+}
+
+#thankyou a,
+#thankyou a:visited {
+  color: var(--green-dark);
+  text-decoration: underline dotted 2px;
+}
+
+#thankyou .links {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+#thankyou .link {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-left: 1em;
+  margin-right: 1em;
+}
+#thankyou .link img {
+  border: none;
+  box-shadow: none;
+  width: 150px;
+  height: 150px;
+}
+#thankyou .link a {
+  display: block;
+}
+</style>
+</section>
+
+</div> <!-- end slides -->
+</div> <!-- end reveal -->
+
+<script src="lib/js/head.min.js"></script>
+<script src="js/reveal.js"></script>
+
+<script>
+Reveal.initialize({
+  dependencies: [
+    { src: 'plugin/notes/notes.js', async: true },
+    {
+      src: 'plugin/highlight/highlight.js',
+      async: true,
+      callback: function() {
+        hljs.initHighlightingOnLoad();
+      },
+    },
+  ],
+  history: true,
+  transition: 'fade',
+});
+</script>
+</body>
+</html>

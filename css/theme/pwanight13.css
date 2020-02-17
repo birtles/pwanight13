@@ -1,0 +1,542 @@
+/**
+ * PWA Night 13
+ */
+
+/*********************************************
+ * FONTS
+ *********************************************/
+
+@font-face {
+  font-family: Rubik;
+  src: local("Rubik Light"),
+       url(../../fonts/Rubik/Rubik-Light.ttf);
+  font-weight: 300;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: Rubik;
+  src: local("Rubik"),
+       url(../../fonts/Rubik/Rubik-Regular.ttf);
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: Rubik;
+  src: local("Rubik Medium"),
+       url(../../fonts/Rubik/Rubik-Medium.ttf);
+  font-weight: 500;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: Rubik;
+  src: local("Rubik Bold"),
+       url(../../fonts/Rubik/Rubik-Bold.ttf);
+  font-weight: 700;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: Rubik;
+  src: local("Rubik Black"),
+       url(../../fonts/Rubik/Rubik-Black.ttf);
+  font-weight: 900;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: Rubik;
+  src: local("Rubik Light Italic"),
+       url(../../fonts/Rubik/Rubik-LightItalic.ttf);
+  font-weight: 300;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: Rubik;
+  src: local("Rubik Italic"),
+       url(../../fonts/Rubik/Rubik-Italic.ttf);
+  font-weight: 400;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: Rubik;
+  src: local("Rubik Medium Italic"),
+       url(../../fonts/Rubik/Rubik-MediumItalic.ttf);
+  font-weight: 500;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: Rubik;
+  src: local("Rubik Bold Italic"),
+       url(../../fonts/Rubik/Rubik-BoldItalic.ttf);
+  font-weight: 700;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: Rubik;
+  src: local("Rubik Black Italic"),
+       url(../../fonts/Rubik/Rubik-BlackItalic.ttf);
+  font-weight: 900;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: Catamaran;
+  font-style: normal;
+  font-weight: 100;
+  src: local('Catamaran Thin'),
+       url(../../fonts/Catamaran/Catamaran-Thin.ttf);
+}
+
+@font-face {
+  font-family: Catamaran;
+  font-style: normal;
+  font-weight: 200;
+  src: local('Catamaran ExtraLight'),
+       url(../../fonts/Catamaran/Catamaran-ExtraLight.ttf);
+}
+
+@font-face {
+  font-family: Catamaran;
+  font-style: normal;
+  font-weight: 300;
+  src: local('Catamaran Light'),
+       url(../../fonts/Catamaran/Catamaran-Light.ttf);
+}
+
+@font-face {
+  font-family: Catamaran;
+  font-style: normal;
+  font-weight: 400;
+  src: local('Catamaran Regular'),
+       url(../../fonts/Catamaran/Catamaran-Regular.ttf);
+}
+
+@font-face {
+  font-family: Catamaran;
+  font-style: normal;
+  font-weight: 500;
+  src: local('Catamaran Medium'),
+       url(../../fonts/Catamaran/Catamaran-Medium.ttf);
+}
+
+@font-face {
+  font-family: Catamaran;
+  font-style: normal;
+  font-weight: 600;
+  src: local('Catamaran SemiBold'),
+       url(../../fonts/Catamaran/Catamaran-SemiBold.ttf);
+}
+
+@font-face {
+  font-family: Catamaran;
+  font-style: normal;
+  font-weight: 700;
+  src: local('Catamaran Bold'),
+       url(../../fonts/Catamaran/Catamaran-Bold.ttf);
+}
+
+@font-face {
+  font-family: Catamaran;
+  font-style: normal;
+  font-weight: 800;
+  src: local('Catamaran ExtraBold'),
+       url(../../fonts/Catamaran/Catamaran-ExtraBold.ttf);
+}
+
+@font-face {
+  font-family: Catamaran;
+  font-style: normal;
+  font-weight: 900;
+  src: local('Catamaran Black'),
+       url(../../fonts/Catamaran/Catamaran-Black.ttf);
+}
+
+@font-face {
+  font-family: 'Nanum Pen Script';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Nanum Pen'),
+       local('NanumPen'),
+       url(../../fonts/NanumPen/NanumPen.119.woff2);
+  unicode-range: U+20-22, U+27-2a, U+2c-38, U+3a-3b, U+3f, U+41-47, U+4a-4c, U+4f-5d, U+61-7b, U+7d, U+a1, U+ab, U+ae, U+b7, U+bb, U+bf, U+2013-2014, U+201c-201d, U+2122, U+ac00, U+ace0, U+ae30, U+b2e4, U+b85c, U+b9ac, U+c0ac, U+c2a4, U+c2dc, U+c774, U+c778, U+c9c0, U+d558;
+}
+
+/*********************************************
+ * VARIABLES
+ *********************************************/
+:root {
+  --green-dark: hsl(106.8, 37%, 36.1%);
+  --green: hsl(106.8, 36.9%, 43.5%);
+  --green-light: hsl(76.7, 72.6%, 52.4%);
+  --green-10: hsl(76.7, 85.6%, 81%);
+
+  --black: #222;
+
+  --pink: hsl(335.9, 69.9%, 51.8%);
+  --pink-highlight: hsl(335.9, 80%, 90%);
+
+  --pink-1: hsl(336, 79%, 27%);
+  --pink-2: hsl(336, 77%, 36%);
+  --pink-3: hsl(336, 75%, 40%);
+  --pink-4: hsl(336, 72%, 48%);
+  --pink-5: hsl(336, 70%, 52%);
+  --pink-6: hsl(336, 72%, 57%);
+  --pink-7: hsl(336, 74%, 65%);
+  --pink-8: hsl(336, 77%, 76%);
+  --pink-9: hsl(336, 87%, 85%);
+  --pink-10: hsl(334, 100%, 94%);
+
+  --red-1: hsl(348, 94%, 20%);
+  --red-2: hsl(350, 94%, 28%);
+  --red-3: hsl(352, 90%, 35%);
+  --red-4: hsl(354, 85%, 44%);
+  --red-5: hsl(356, 75%, 53%);
+  --red-6: hsl(360, 83%, 62%);
+  --red-7: hsl(360, 91%, 69%);
+  --red-8: hsl(360, 100%, 80%);
+  --red-9: hsl(360, 100%, 87%);
+  --red-10: hsl(360, 100%, 95%);
+
+  --blue-1: hsl(230, 77%, 26%);
+  --blue-2: hsl(227, 66%, 36%);
+  --blue-3: hsl(225, 64%, 39%);
+  --blue-4: hsl(223, 58%, 42%);
+  --blue-5: hsl(222, 55%, 48%);
+  --blue-6: hsl(222, 65%, 54%);
+  --blue-7: hsl(220, 72%, 63%);
+  --blue-8: hsl(219, 77%, 72%);
+  --blue-9: hsl(216, 88%, 85%);
+  --blue-10: hsl(216, 78%, 89%);
+
+  --neutral-1: hsl(42, 15%, 13%);
+  --neutral-2: hsl(40, 13%, 23%);
+  --neutral-3: hsl(37, 11%, 28%);
+  --neutral-4: hsl(41, 9%, 35%);
+  --neutral-5: hsl(41, 8%, 48%);
+  --neutral-6: hsl(41, 8%, 61%);
+  --neutral-7: hsl(39, 11%, 69%);
+  --neutral-8: hsl(40, 15%, 80%);
+  --neutral-9: hsl(43, 13%, 90%);
+  --neutral-10: hsl(40, 23%, 97%);
+
+  --style-purple: hsl(261, 54%, 68%);
+  --style-purple-dark: hsl(262, 60%, 38%);
+
+  --script-yellow: hsl(48, 95%, 76%);
+  --script-yellow-dark: hsl(44, 92%, 63%);
+}
+
+/*********************************************
+ * GLOBAL STYLES
+ *********************************************/
+body {
+  background-color: var(--neutral-10);
+}
+
+.reveal {
+  font-family: Rubik, Helvetica, sans-serif;
+  font-size: 42px;
+  font-weight: normal;
+  color: var(--black);
+}
+
+::selection {
+  color: white;
+  background: #98bdef;
+  text-shadow: none;
+}
+
+::-moz-selection {
+  color: white;
+  background: #98bdef;
+  text-shadow: none;
+}
+
+.reveal .slides section,
+.reveal .slides section > section {
+  line-height: 1.3;
+  font-weight: inherit;
+}
+
+/* Chrome sets the font on form controls to Arial which looks horrible on
+ * Japanese systems. */
+.reveal button,
+.reveal textarea,
+.reveal input,
+.reveal select {
+  font-family: "Source Sans Pro", Helvetica, sans-serif;
+}
+
+/*********************************************
+ * HEADERS
+ *********************************************/
+.reveal h1,
+.reveal h2,
+.reveal h3,
+.reveal h4,
+.reveal h5,
+.reveal h6 {
+  margin: 0 0 20px 0;
+  color: var(--green-dark);
+  font-family: Catamaran, sans-serif;
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: -1px;
+  text-shadow: none;
+  word-wrap: break-word; }
+
+.reveal h1 code,
+.reveal h2 code,
+.reveal h3 code,
+.reveal h4 code,
+.reveal h5 code,
+.reveal h6 code {
+  letter-spacing: normal;
+}
+
+.reveal h1 {
+  font-size: 2.5em; }
+
+.reveal h2 {
+  font-size: 60px; }
+
+.reveal h3 {
+  font-size: 1.3em; }
+
+.reveal h4 {
+  font-size: 1em; }
+
+.reveal h1 {
+  text-shadow: none; }
+
+/*********************************************
+ * PERFORMANCE TWEAKS
+ *********************************************/
+.reveal .slides > section.future,
+.reveal .slides > section.present {
+  will-change: transform, opacity;
+}
+.reveal .slides > section.future {
+  opacity: 0.0001;
+}
+.reveal .slides > section,
+.reveal .slides > section > section {
+  transform-style: flat;
+}
+
+.reveal .slides section.present .fragment {
+  will-change: opacity;
+  visibility: visible;
+}
+.reveal .slides section.present .fragment.zoom-in {
+  will-change: transform;
+}
+.reveal .slides section .fragment.visible {
+  will-change: unset;
+}
+
+/*********************************************
+ * OTHER
+ *********************************************/
+.reveal p {
+  margin: 20px 0;
+  line-height: 1.3; }
+
+/* Ensure certain elements are never larger than the slide itself */
+.reveal img,
+.reveal video,
+.reveal iframe {
+  max-width: 95%;
+  max-height: 95%; }
+
+.reveal strong,
+.reveal b {
+  font-weight: bold; }
+
+.reveal em {
+  font-style: italic; }
+
+.reveal ol,
+.reveal dl,
+.reveal ul {
+  display: inline-block;
+  text-align: left;
+  margin: 0 0 0 1em; }
+
+.reveal ol {
+  list-style-type: decimal; }
+
+.reveal ul {
+  list-style-type: disc; }
+
+.reveal ul ul {
+  list-style-type: square; }
+
+.reveal ul ul ul {
+  list-style-type: circle; }
+
+.reveal ul ul,
+.reveal ul ol,
+.reveal ol ol,
+.reveal ol ul {
+  display: block;
+  margin-left: 40px; }
+
+.reveal dt {
+  font-weight: bold; }
+
+.reveal dd {
+  margin-left: 40px; }
+
+.reveal blockquote {
+  display: block;
+  position: relative;
+  width: 70%;
+  margin: 20px auto;
+  padding: 5px;
+  font-style: italic;
+  background: rgba(255, 255, 255, 0.05);
+  box-shadow: 0px 0px 2px rgba(0, 0, 0, 0.2); }
+
+.reveal blockquote p:first-child,
+.reveal blockquote p:last-child {
+  display: inline-block; }
+
+.reveal q {
+  font-style: italic; }
+
+.reveal pre {
+  display: block;
+  position: relative;
+  width: 90%;
+  margin: 20px auto;
+  text-align: left;
+  font-size: 0.55em;
+  font-family: monospace;
+  line-height: 1.2em;
+  word-wrap: break-word;
+  box-shadow: 0px 0px 6px rgba(0, 0, 0, 0.3); }
+
+.reveal code {
+  font-family: monospace;
+  text-transform: none; }
+
+.reveal pre code {
+  display: block;
+  padding: 5px;
+  overflow: auto;
+  max-height: 400px;
+  word-wrap: normal; }
+
+.reveal table {
+  margin: auto;
+  border-collapse: collapse;
+  border-spacing: 0; }
+
+.reveal table th {
+  font-weight: bold; }
+
+.reveal table th,
+.reveal table td {
+  text-align: left;
+  padding: 0.2em 0.5em 0.2em 0.5em;
+  border-bottom: 1px solid; }
+
+.reveal table th[align="center"],
+.reveal table td[align="center"] {
+  text-align: center; }
+
+.reveal table th[align="right"],
+.reveal table td[align="right"] {
+  text-align: right; }
+
+.reveal table tbody tr:last-child th,
+.reveal table tbody tr:last-child td {
+  border-bottom: none; }
+
+.reveal sup {
+  vertical-align: super;
+  font-size: smaller; }
+
+.reveal sub {
+  vertical-align: sub;
+  font-size: smaller; }
+
+.reveal small {
+  display: inline-block;
+  font-size: 0.6em;
+  line-height: 1.2em;
+  vertical-align: top; }
+
+.reveal small * {
+  vertical-align: top; }
+
+/*********************************************
+ * LINKS
+ *********************************************/
+.reveal a {
+  color: var(--green-dark);
+  text-decoration: none;
+  transition: color .15s ease; }
+
+.reveal a:hover {
+  color: var(--green);
+  text-shadow: none;
+  border: none; }
+
+.reveal .roll span:after {
+  color: #fff;
+  background: #1a53a1; }
+
+/*********************************************
+ * IMAGES
+ *********************************************/
+.reveal section img {
+  margin: 15px 0px;
+  background: rgba(255, 255, 255, 0.12);
+  border: 4px solid var(--neutral-1);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.15); }
+
+.reveal section img.plain {
+  border: 0;
+  box-shadow: none; }
+
+.reveal a img {
+  -webkit-transition: all .15s linear;
+  -moz-transition: all .15s linear;
+  transition: all .15s linear; }
+
+.reveal a:hover img {
+  background: rgba(255, 255, 255, 0.2);
+  border-color: var(--green-dark);
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.55); }
+
+/*********************************************
+ * NAVIGATION CONTROLS
+ *********************************************/
+.reveal .controls {
+  color: var(--green); }
+
+/*********************************************
+ * PROGRESS BAR
+ *********************************************/
+.reveal .progress {
+  background: var(--green-10);
+  color: var(--green-dark); }
+
+.reveal .progress span {
+  transition: width 800ms cubic-bezier(0.26, 0.86, 0.44, 0.985); }
+
+/*********************************************
+ * PRINT BACKGROUND
+ *********************************************/
+@media print {
+  .backgrounds {
+    background-color: #fff; } }
