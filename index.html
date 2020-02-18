@@ -2642,23 +2642,27 @@ react.render(
 </section>
 
 <section id="naive-single-page-app-explained">
-<h2>When you click&hellip;</h2>
+<h2>クリックすると&hellip;</h2>
 <div class=side-by-side>
   <ol>
-    <li>Handle click
-    <li>Create DOM elements
-    <li>Resolve style
+    <li>クリックイベントハンドラー
+    <li>DOMの要素生成
+    <li>スタイル算出
       <ul style="font-size: smaller">
-        <li>(<code>&lt;CSSTransition&gt;</code> resolves style and layout
-          multiple times)
+        <li>（<code>&lt;CSSTransition&gt;</code>
+          の場合は何度もスタイル算出およびレイアウトの処理をさせる）
       </ul>
-    <li>Calculate layout
-    <li>Paint each new element
-    <li>Run the transition
+    <li>レイアウト
+    <li>描画（特に新しい要素の領域）
+    <li>transitionが始まる
   </ol>
   <img src="img/bad-router-profile.png">
 </div>
 <style>
+#naive-single-page-app-explained .side-by-side {
+  margin-left: .5em;
+  margin-right: .5em;
+}
 #naive-single-page-app-explained .side-by-side ol {
   font-size: 25px;
 }
@@ -2691,26 +2695,23 @@ react.render(
 </section>
 
 <section id="fixed-single-page-app-explained" data-transition=fade>
-<h2>When you click&hellip;</h2>
+<h2>クリックすると&hellip;</h2>
 <ol>
-  <li>Handle click
-  <li class=strike>Create DOM elements
-  <li>Resolve style
+  <li>クリックイベントハンドラー
+  <li class=strike>DOMの要素生成
+  <li>スタイル算出
     <ul style="font-size: smaller" class=strike>
-      <li>(<code>&lt;CSSTransition&gt;</code> resolves style and layout
-        multiple times)
+      <li>（<code>&lt;CSSTransition&gt;</code>
+        の場合は何度もスタイル算出およびレイアウトの処理をさせている）
     </ul>
-  <li class=strike>Calculate layout
-  <li class=strike>Paint each new element
-  <li>Run the transition
+  <li class=strike>レイアウト
+  <li class=strike>描画
+  <li>transitionが始まる
 </ol>
 <style>
-#fixed-single-page-app-explained .side-by-side ol {
-  font-size: 25px;
-}
-#fixed-single-page-app-explained .side-by-side img {
-  width: 700px;
-  margin-left: 50px;
+#fixed-single-page-app-explained ol {
+  margin-left: 2em;
+  margin-right: 2em;
 }
 #fixed-single-page-app-explained .strike {
   text-decoration: line-through;
@@ -2737,12 +2738,96 @@ react.render(
 </style>
 </section>
 
-<!-- New things to look out for
-  - offset-path
-  - prefers-reduced-motion
-  - timing function steps
-  - translate, scale, rotate
--->
+<section id="summing-up" data-background="var(--green-10)">
+  <h2>まとめ</h2>
+  <ul>
+    <li>① CSS Transitionを発生させるため、<span
+        class=highlight>スタイルの変更</span>が必要
+      <span class=application><code>requestAnimationFrame</code>,
+        <code>getComputedStyle</code>, CSS animations,
+        <code>Element.animate</code></span>
+    <li>② CSS Transitionsに<span class=highlight>終わらない</span>こともある
+      <span class=application><code>transitioncancel</code>,
+        <code>transitionrun</code>, <code>Animation.finished</code></span>
+    <li>③ <span class=highlight>Web Animations API</span> を使ってみて
+      <span class=application><code>Element.animate</code>,
+        <code>getAnimations</code></span>
+    <li><span class=bonus>Bonus</span> アニメーションがすぐできるように<span class=highlight>DOMを常備する</span>
+  </ul>
+<style>
+#summing-up ul {
+  margin-left: 1em;
+  margin-right: 1em;
+  margin-top: 1em;
+  font-size: 35px;
+}
+#summing-up li {
+  margin-bottom: 1em;
+  list-style: none;
+}
+#summing-up li .application:before {
+  content: '→';
+  margin-right: .5em;
+}
+#summing-up li .application {
+  display: block;
+  margin-top: .5em;
+  margin-left: 3em;
+  font-size: 50%;
+  line-height: 1.4;
+}
+#summing-up code {
+  background: white;
+  color: var(--green-dark);
+  border-radius: 1em;
+  padding: .2em .7em;
+  box-shadow: var(--green-light) 0 1px 1px;
+}
+#summing-up .highlight {
+  font-weight: 600;
+  color: var(--red-6);
+  text-shadow: var(--red-2) 0px 1px 1px;
+}
+#summing-up .bonus {
+  font-weight: bold;
+  text-transform: uppercase;
+  font-size: 70%;
+}
+</style>
+</section>
+
+<section id="more-new-stuffs" data-background="var(--green-10)">
+  <h2>その他の<span class=highlight>Webブラウザ最前線</code></h2>
+  <ul>
+    <li><code>offset-path</code>
+    <li><code>prefers-reduced-motion</code>
+    <li><code>steps(5, jump-none)</code>
+    <li><code>translate</code>, <code>scale</code>, <code>rotate</code>
+  </ul>
+<style>
+#more-new-stuffs ul {
+  margin-left: 1em;
+  margin-right: 1em;
+  margin-top: 1em;
+  font-size: 40px;
+}
+#more-new-stuffs li {
+  margin-bottom: 1em;
+}
+#more-new-stuffs code {
+  background: white;
+  color: var(--green-dark);
+  border-radius: 1em;
+  padding: .2em .7em;
+  box-shadow: var(--green-light) 0 1px 1px;
+}
+#more-new-stuffs .highlight {
+  font-weight: 600;
+  color: var(--red-6);
+  text-shadow: var(--red-2) 0px 1px 1px;
+}
+</style>
+</section>
 
 <section id="thankyou" data-transition="fade">
 <h2>ご清聴ありがとうございました</h2>
@@ -2765,7 +2850,7 @@ react.render(
 <style>
 #thankyou h2 {
   color: var(--red-6);
-  text-shadow: var(--red-2) 0px 3px 3px;
+  text-shadow: var(--red-2) 0px 2px 2px;
 }
 #thankyou .slides-link,
 #thankyou .links {
