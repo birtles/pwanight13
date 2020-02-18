@@ -2313,7 +2313,8 @@ document.addEventListener(<span class="highlight fragment">'transitionrun'</span
 <section id="color-wheelies">
 <svg class="wheelie" viewBox="-10 -10 464.4 516">
   <!-- Main circle -->
-  <circle id="main" fill="red" cx="221.7" cy="250.5" r="114"/>
+  <circle id="main" fill="red" cx="221.7" cy="250.5" r="114"
+    stroke="#222" stroke-width="10"/>
   <!-- Swatches -->
   <circle class="swatch -selected" fill="hsl(0, 90%, 50%)"
     cx="221.7" cy="53.5" r="53"/>
@@ -2333,7 +2334,7 @@ document.addEventListener(<span class="highlight fragment">'transitionrun'</span
   width: 400px;
 }
 #color-wheelies .swatch {
-  stroke: var(--neutral-4);
+  stroke: #222;
   stroke-width: 10px;
   stroke-opacity: 0;
   stroke-linecap: round;
