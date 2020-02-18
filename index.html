@@ -426,7 +426,7 @@ document.getElementsByTagName('head')[0].appendChild(link);
     // Create the panel
     const panel = document.createElement('div');
     panel.classList.add('panel');
-    panel.textContent = 'ハロー';
+    panel.textContent = 'ハロー！';
     panel.onclick = () => panel.remove();
     parent.appendChild(panel);
 
@@ -463,13 +463,13 @@ document.getElementsByTagName('head')[0].appendChild(link);
 <div class="side-by-side">
   <pre><code class="hljs js" data-trim data-noescape>
 button.onclick = () => {
-<span class="highlight fragment">  // Make the panel
+<span class="highlight fragment">  // パネルを作る
   const panel = document.createElement('div');
   panel.classList.add('panel');
   panel.textContent = 'ハロー！';
   parent.appendChild(panel);</span>
 
-<span class="highlight fragment">  // Stretch it in
+<span class="highlight fragment">  // アニメーションさせる
   panel.style.transform = 'scale(0)';
   panel.style.transition = 'transform .5s';
   panel.style.transform = 'scale(1)';</span>
@@ -858,11 +858,11 @@ button.onclick = () => {
 <div class="side-by-side">
   <pre><code class="hljs js" data-trim data-noescape>
 button.onclick = () => {
-  // Make the panel
+  // パネルを作る
   const panel = document.createElement('div');
   ...
 
-  // Stretch it in
+  // アニメーションさせる
   panel.style.transform = 'scale(0)';
   panel.style.transition = 'transform .5s';
 <span class="highlight">  requestAnimationFrame(() => {
@@ -983,11 +983,11 @@ button.onclick = () => {
 <div class="side-by-side">
   <pre><code class="hljs js" data-trim data-noescape>
 button.onclick = () => {
-  // Make the panel
+  // パネルを作る
   const panel = document.createElement('div');
   ...
 
-  // Stretch it in
+  // アニメーションさせる
   panel.style.transform = 'scale(0)';
   panel.style.transition = 'transform .5s';
 <span class="highlight">  requestAnimationFrame(() => {
@@ -1139,11 +1139,11 @@ button.onclick = () => {
 <div class="side-by-side">
   <pre><code class="hljs js" data-trim data-noescape>
 button.onclick = () => {
-  // Make the panel
+  // パネルを作る
   const panel = document.createElement('div');
   ...
 
-  // Stretch it in
+  // アニメーションさせる
   panel.style.transform = 'scale(0)';
 <span class="highlight">  getComputedStyle(panel).transform;</span>
   panel.style.transition = 'transform .5s';
@@ -1294,7 +1294,8 @@ button.onclick = () => {
   font-size: 35px;
 }
 #style-change-tips ul code {
-  background: var(--green-light);
+  color: var(--green-dark);
+  background: var(--green-10);
   border-radius: .5em;
   padding: 1px 15px;
 }
@@ -1357,7 +1358,6 @@ const PopupButton = () => {
     );
     const children = [button];
     if (isShowing) {
-      console.log('Adding panel');
       const panel = React.createElement('div', {
         ref: panelRef,
         className: 'panel',
@@ -1440,7 +1440,6 @@ const PopupButton = () => {
     );
     const children = [button];
     if (isShowing) {
-      console.log('Adding panel');
       const panel = React.createElement('div', {
         ref: panelRef,
         className: 'panel',
@@ -1464,6 +1463,1088 @@ const PopupButton = () => {
 <style>
 #css-transitions-react-fixed pre {
   font-size: 15px;
+}
+</style>
+</section>
+
+<section id="transitions-can-disappear" data-background="var(--green-10)">
+  <h2>② CSS Transitionsに<br><span class=highlight>終わらない</span>こともある</h2>
+<style>
+#transitions-can-disappear .highlight {
+  color: var(--red-6);
+  text-shadow: var(--red-2) 0px 3px 3px;
+}
+</style>
+</section>
+
+<section id="css-transitions-hiding" class="panel-example"
+  data-transition="fade-out">
+<div class="side-by-side">
+  <pre><code class="hljs js" data-trim data-noescape>
+button.onclick = () =&gt; {
+  // … パネルが表示されていれば、削除する。
+<span class="highlight">  panel.remove();</span>
+};
+  </code></pre>
+  <div>
+    <button class="button">Button</button>
+  </div>
+</div>
+<script>
+(() => {
+  const button = document.querySelector('#css-transitions-hiding .button');
+  const parent = document.querySelector('#css-transitions-hiding');
+
+  button.onclick = () => {
+    // If there is an existing panel, remove it
+    const existingPanel = document.querySelector(
+      '#css-transitions-hiding .panel'
+    );
+    if (existingPanel) {
+      existingPanel.remove();
+      return;
+    }
+
+    // Create the panel
+    const panel = document.createElement('div');
+    panel.classList.add('panel');
+    panel.textContent = 'ハロー！';
+    parent.appendChild(panel);
+
+    // Stretch in
+    panel.style.transform = 'scale(0)';
+    getComputedStyle(panel).transform;
+    panel.style.transition = 'transform .5s';
+    panel.style.transform = 'scale(1)';
+  };
+})();
+</script>
+</section>
+
+<section id="css-transitions-hiding-with-transition" class="panel-example"
+  data-transition="fade-in">
+<div class="side-by-side">
+  <pre><code class="hljs js" data-trim data-noescape>
+button.onclick = () =&gt; {
+  // … パネルが表示されていれば、削除する。
+<span class="highlight">  panel.style.transform = 'scale(0)';
+  panel.addEventListener('transitionend', () =&gt; {
+    panel.remove();
+  });</span>
+};
+  </code></pre>
+  <div>
+    <button class="button">Button</button>
+  </div>
+</div>
+<script>
+(() => {
+  const button = document.querySelector(
+    '#css-transitions-hiding-with-transition .button'
+  );
+  const parent = document.querySelector(
+    '#css-transitions-hiding-with-transition'
+  );
+
+  button.onclick = () => {
+    // If there is an existing panel, remove it
+    const existingPanel = document.querySelector(
+      '#css-transitions-hiding-with-transition .panel'
+    );
+    if (existingPanel) {
+      existingPanel.style.transform = 'scale(0)';
+      existingPanel.addEventListener('transitionend', () => {
+        existingPanel.remove();
+      });
+      return;
+    }
+
+    // Create the panel
+    const panel = document.createElement('div');
+    panel.classList.add('panel');
+    panel.textContent = 'ハロー！';
+    parent.appendChild(panel);
+
+    // Stretch in
+    panel.style.transform = 'scale(0)';
+    getComputedStyle(panel).transform;
+    panel.style.transition = 'transform .5s';
+    panel.style.transform = 'scale(1)';
+  };
+})();
+</script>
+</section>
+
+<section id="transitions-can-be-canceled">
+<h2>もしtransitionの再生中に&hellip;</h2>
+<ul>
+  <li>要素が <code>display:none</code> になったら？
+  <li>要素が再生成されたら？
+  <li><code>transition-property</code> の計算値が変わったら？
+  <li>要素が削除されたら？
+</ul>
+<p class="lookout fragment">
+transitionは<em>キャンセル</em>されて<br>
+<code>transitionend</code> は発火されない！
+</p>
+<style>
+#transitions-can-be-canceled code {
+  color: var(--green-dark);
+  background: var(--green-10);
+  border-radius: .5em;
+  padding: 1px 15px;
+}
+#transitions-can-be-canceled .lookout {
+  background: var(--green);
+  padding: 25px;
+  color: white;
+  border-radius: 50px;
+}
+#transitions-can-be-canceled .lookout em {
+  padding-left: 0.3em;
+  padding-right: 0.3em;
+  font-style: normal;
+  font-weight: 600;
+  color: var(--red-8);
+  text-shadow: var(--red-2) 0px 2px 2px;
+}
+#transitions-can-be-canceled .lookout code {
+  color: var(--red-6);
+  font-weight: bold;
+}
+</style>
+</section>
+
+<section id="lots-of-bugs">
+<div class="container fragment">
+  <img src="img/bug683696.png" width="800" height="254">
+  <img src="img/bug1206913.png" width="800" height="204">
+  <img src="img/bug1118361.png" width="800" height="192">
+  <img src="img/bug1075333.png" width="800" height="187">
+  <img src="img/bug1059650.png" width="800" height="192">
+  <div class=labels>
+    <span>1) Transitionが生成されていない</span>
+    <span>2) Transitionが終わらない</span>
+  </div>
+</div>
+<style>
+#lots-of-bugs img {
+  border-width: 0;
+  box-shadow: none;
+  opacity: 0;
+  transition: transform 0.5s, opacity 0.7s;
+}
+#lots-of-bugs.present img {
+  opacity: 1;
+}
+#lots-of-bugs.future img,
+#lots-of-bugs .container.visible img {
+  transition-property: transform;
+}
+#lots-of-bugs img:nth-child(1) {
+  margin-left: -20px;
+  transition-delay: 0s, 0.5s;
+}
+#lots-of-bugs img:nth-child(2) {
+  margin-top: -180px;
+  margin-left: 60px;
+  transition-delay: 0s, 1.5s;
+}
+#lots-of-bugs img:nth-child(3) {
+  margin-top: -120px;
+  margin-left: -70px;
+  transition-delay: 0s, 2.5s;
+}
+#lots-of-bugs img:nth-child(4) {
+  margin-top: -120px;
+  margin-left: 40px;
+  transition-delay: 0s, 3.3s;
+}
+#lots-of-bugs img:nth-child(5) {
+  margin-top: -110px;
+  margin-left: -40px;
+  transition-delay: 0s, 3.8s;
+}
+#lots-of-bugs .container {
+  visibility: visible;
+  opacity: 1;
+}
+#lots-of-bugs .container .labels {
+  opacity: 0;
+  transition: opacity 0.5s;
+  display: flex;
+}
+#lots-of-bugs .container .labels span {
+  color: var(--red-4);
+  margin-top: -200px;
+  font-weight: 500;
+}
+#lots-of-bugs .container.visible img:nth-child(1) {
+  transform: scale(0.5) translate(-450px);
+}
+#lots-of-bugs .container.visible img:nth-child(2) {
+  transform: scale(0.5) translate(-460px);
+}
+#lots-of-bugs .container.visible img:nth-child(3) {
+  transform: scale(0.5) translate(-450px, -50px);
+}
+#lots-of-bugs .container.visible img:nth-child(4) {
+  transform: scale(0.5) translate(450px, -500px);
+}
+#lots-of-bugs .container.visible img:nth-child(5) {
+  transform: scale(0.5) translate(480px, -550px);
+}
+#lots-of-bugs .container.visible .labels {
+  opacity: 1;
+  transition-delay: 0.4s;
+}
+</style>
+</section>
+
+<section id="css-transitions-canceling-react" class="panel-example"
+  data-transition="fade-out">
+<div class="side-by-side">
+  <pre><code class="hljs jsx" data-trim data-noescape>
+//...
+
+const buttonClick = React.useCallback(() => {
+  if (panelState === 'showing') {
+    setPanelState('hiding');
+<span class=highlight>    panelRef.current.addEventListener('transitionend', () => {
+      setPanelState('hidden');
+    }, { once: true });</span>
+  } else {
+    setPanelState('showing');
+  }
+}, [panelState]);
+
+// ...
+  </code></pre>
+  <div class="panel-container">
+  </div>
+</div>
+<script>
+(() => {
+  const PopupButton = () => {
+    const [panelState, setPanelState] = React.useState('hidden');
+
+    const panelRef = React.useRef(null);
+    React.useLayoutEffect(() => {
+      switch (panelState) {
+        case 'showing':
+          getComputedStyle(panelRef.current).transform;
+          panelRef.current.style.transform = 'scale(1)';
+          break;
+
+        case 'hiding':
+          getComputedStyle(panelRef.current).transform;
+          panelRef.current.style.transform = 'scale(0)';
+          break;
+      }
+    }, [panelState, panelRef.current]);
+
+    const buttonClick = React.useCallback(() => {
+      if (panelState === 'showing') {
+        setPanelState('hiding');
+        panelRef.current.addEventListener('transitionend', () => {
+          setPanelState('hidden');
+        }, { once: true });
+      } else {
+        setPanelState('showing');
+      }
+    }, [panelState]);
+
+    const button = React.createElement(
+      'button',
+      { onClick: buttonClick, key: 'button', className: 'button' },
+      'Button'
+    );
+    const children = [button];
+    if (panelState !== 'hidden') {
+      const panel = React.createElement('div', {
+        ref: panelRef,
+        className: 'panel',
+        key: 'panel',
+        style: { transition: 'transform 1s', transform: 'scale(0)' },
+      }, 'ハロー！');
+      children.push(panel);
+    }
+
+    const fragment = React.createElement('div', null, children);
+
+    return fragment;
+  };
+
+  const container = document.querySelector(
+    '#css-transitions-canceling-react .panel-container'
+  );
+  ReactDOM.render(React.createElement(PopupButton), container);
+})();
+</script>
+<style>
+#css-transitions-canceling-react pre {
+  font-size: 20px;
+}
+</style>
+</section>
+
+<section id="lots-of-events">
+<h2>新しいイベント！</h2>
+<ul>
+  <li><code>transitionrun</code>
+    <p class=explanation>&rarr; transitionが生成された 🆕
+    <p class=explanation>&rarr; <code>transitionend</code>を待ってもオッケー 🙆‍♂️</p>
+  <li><code>transitioncancel</code>
+    <p class=explanation>&rarr; 要素が消えた🗑️
+    <span style="font-size: smaller">（削除されたり、再生成されたり、
+      <code>display:none</code>になったり）</span></p>
+    <p class=explanation>&rarr; <code>transitionend</code>を待たない方が良い ❌</p>
+  <li><code>animationcancel</code>
+    <span class=explanation>（<code>transitioncancel</code>と同様）</span>
+</ul>
+<style>
+#lots-of-events code {
+  color: var(--green);
+  font-weight: 600;
+  background: var(--green-10);
+  border-radius: 10px;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+#lots-of-events .explanation {
+  font-size: 30px;
+}
+</style>
+</section>
+
+<section id="hows-your-event-game">
+<h2><code>transitioncancel</code>たち</h2>
+<ul class="logo-list">
+  <li><img class="logo" src="img/firefox-logo.svg"><span>53+</span>
+  <li><img class="logo" src="img/chrome-logo.svg"><span>74+</span>
+    <span class=fineprint>No <code>animationcancel</code></span>
+  <li class=exp-support><img class="logo" src="img/technology-preview.png"><span>Tech Preview</span>
+  <li><img class="logo" src="img/edgium.png"><span class=maru>〇</span>
+    <span class=fineprint>No <code>animationcancel</code></span>
+</ul>
+<style>
+#hows-your-event-game .logo-list {
+  margin-top: 50px;
+}
+#hows-your-event-game code {
+  color: var(--green);
+  background: var(--green-10);
+  border-radius: 10px;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+#hows-your-event-game .logo-list .fineprint {
+  display: block;
+  margin-top: 10px;
+  font-size: 20px;
+  line-height: 1.2;
+}
+
+/* Re-useable parts */
+.reveal .logo-list {
+  line-height: 1.5;
+  list-style: none;
+  display: flex;
+  justify-content: space-around;
+}
+.reveal .logo-list li {
+  flex-basis: 100px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  font-size: 35px;
+  line-height: 1;
+}
+.reveal .logo-list .logo {
+  width: 100px;
+  /* I have no idea how this works but it stops the Edgium logo from being
+     squashed vertically. */
+  max-width: 100px;
+  height: 100px;
+  margin: 0;
+  margin-bottom: 0.5em;
+  border: none;
+  box-shadow: none;
+  background: transparent;
+  vertical-align: text-bottom;
+}
+.reveal .logo-list .batsu {
+  color: hsl(354, 85%, 44%);
+  font-weight: bold;
+}
+.reveal .logo-list .maru {
+  color: var(--green);
+  font-weight: bold;
+}
+.reveal .logo-list .no-support {
+  filter: grayscale(100%);
+  opacity: 0.4;
+}
+.reveal .logo-list .exp-support {
+  opacity: 0.6;
+}
+</style>
+</section>
+
+<section id="web-animations-is-here" data-background="var(--green-10)">
+  <h2>③ <span class=highlight>Web Animations API</span><br>
+    を使ってみて</h2>
+<style>
+#web-animations-is-here .highlight {
+  color: var(--red-6);
+  text-shadow: var(--red-2) 0px 3px 3px;
+}
+</style>
+</section>
+
+<section id="web-animations-button" class="panel-example">
+<h2>Element.animate()</h2>
+<div class="side-by-side">
+  <pre><code class="hljs js" data-trim data-noescape>
+button.onclick = () => {
+  // パネルを作る
+  const panel = document.createElement('div');
+  panel.classList.add('panel');
+  panel.textContent = 'ハロー！';
+  parent.appendChild(panel);
+
+  // アニメーションさせる
+<div class=replace><span class="highlight" data-fragment-index=0>  panel.style.transform = 'scale(0)';
+  getComputedStyle(panel).transform;
+  panel.style.transition = 'transform .5s';
+  panel.style.transform = 'scale(1)';</span>
+<span class="highlight fragment ontop" data-fragment-index=1>  panel.animate(
+    { transform: ['scale(0)', 'scale(1)'] },
+    { duration: 500, easing: 'ease' }
+  );</span></div>};
+  </code></pre>
+  <div>
+    <button class="button">Button</button>
+  </div>
+</div>
+<script>
+(() => {
+  const button = document.querySelector('#web-animations-button .button');
+  const parent = document.querySelector('#web-animations-button');
+
+  button.onclick = () => {
+    // If there is an existing panel, remove it
+    const existingPanel = document.querySelector(
+      '#web-animations-button .panel'
+    );
+    if (existingPanel) {
+      existingPanel.remove();
+      return;
+    }
+
+    // Create the panel
+    const panel = document.createElement('div');
+    panel.classList.add('panel');
+    panel.textContent = 'ハロー！';
+    parent.appendChild(panel);
+
+    // Stretch in
+    panel.animate(
+      {
+        transform: ['scale(0)', 'scale(1)'],
+      },
+      { duration: 500, easing: 'ease' }
+    );
+  };
+})();
+</script>
+<style>
+#web-animations-button .replace {
+  position: relative;
+}
+#web-animations-button .fragment.ontop {
+  position: absolute;
+  top: 0;
+}
+</style>
+</section>
+
+<section id="web-animations-meets-react" class="panel-example"
+  data-transition="fade-out">
+<h2>Animation.finished</h2>
+<div class="side-by-side">
+  <pre><code class="hljs jsx" data-trim data-noescape>
+React.useLayoutEffect(() =&gt; {
+  let animation;
+  if (panelState === 'showing') {
+    animation = panelRef.current.animate(
+      { transform: ['scale(0)', 'scale(1)'] },
+      { duration: 500, easing: 'ease' }
+    );
+  } else if (panelState === 'hiding') {
+    animation = panelRef.current.animate(
+      { transform: ['scale(1)', 'scale(0)'] },
+      { duration: 500, easing: 'ease' }
+    );
+    // animationがキャンセルされたらfinishedがrejectされる
+<span class="highlight fragment">    animation.finished.then(() =&gt; {
+      setPanelState('hidden');
+    });</span>
+  }
+  return () =&gt; {
+    if (animation) { animation.cancel() }
+  };
+}, [panelState, panelRef.current]);
+  </code></pre>
+  <div class="panel-container">
+  </div>
+</div>
+<script>
+(() => {
+  const PopupButton = () => {
+    const [panelState, setPanelState] = React.useState('hidden');
+
+    const panelRef = React.useRef(null);
+    React.useLayoutEffect(() => {
+      let animation;
+      if (panelState === 'showing') {
+        animation = panelRef.current.animate(
+          { transform: ['scale(0)', 'scale(1)'] },
+          { duration: 500, easing: 'ease' }
+        );
+      } else if (panelState === 'hiding') {
+        animation = panelRef.current.animate(
+          { transform: ['scale(1)', 'scale(0)'] },
+          { duration: 500, easing: 'ease' }
+        );
+        animation.finished.then(() => {
+          setPanelState('hidden');
+        }).catch(() => { /* Ignore */ });
+      }
+      return () => {
+        if (animation) {
+          animation.cancel();
+        }
+      };
+    }, [panelState, panelRef.current]);
+
+    const buttonClick = React.useCallback(() => {
+      if (panelState === 'showing') {
+        setPanelState('hiding');
+      } else {
+        setPanelState('showing');
+      }
+    }, [panelState]);
+
+    const button = React.createElement(
+      'button',
+      { onClick: buttonClick, key: 'button', className: 'button' },
+      'Button'
+    );
+    const children = [button];
+    if (panelState !== 'hidden') {
+      const panel = React.createElement('div', {
+        ref: panelRef,
+        className: 'panel',
+        key: 'panel',
+      }, 'ハロー！');
+      children.push(panel);
+    }
+
+    const fragment = React.createElement('div', null, children);
+
+    return fragment;
+  };
+
+  const container = document.querySelector(
+    '#web-animations-meets-react .panel-container'
+  );
+  ReactDOM.render(React.createElement(PopupButton), container);
+})();
+</script>
+<style>
+#web-animations-meets-react pre {
+  font-size: 15px;
+}
+#web-animations-meets-react .fragment {
+  opacity: 1;
+  visibility: visible;
+  background-color: transparent;
+}
+#web-animations-meets-react .fragment.highlight.current-fragment {
+  background-color: var(--green-10);
+}
+</style>
+</section>
+
+<section id="a-more-complex-example" class="app-frame">
+<iframe width="400" height="600" src="notes/notes.html"></iframe>
+</section>
+
+<section id="css-transitions-with-web-animations" class="panel-example"
+  data-transition="fade-in">
+<h2>CSS Transitions ♡ Web Animations</h2>
+<pre><code class="hljs js" data-trim data-noescape>
+// transitionend
+button.onclick = () =&gt; {
+  panel.style.transform = 'scale(0)';
+  panel.addEventListener('transitionend', () =&gt; {
+    panel.remove();
+  });
+};
+</code></pre>
+<pre class=fragment><code class="hljs js" data-trim data-noescape>
+// Web Animationsのfinished Promise
+button.onclick = () =&gt; {
+  panel.style.transform = 'scale(0)';
+<span class="fragment highlight">  const transition = panel.getAnimations()[0];</span>
+<span class="fragment highlight">  transition.finished.then(() => {
+    panel.remove();
+  });</span>
+});
+</code></pre>
+<style>
+#css-transitions-with-web-animations span.fragment.highlight {
+  opacity: 1;
+  visibility: visible;
+  background-color: transparent;
+}
+#css-transitions-with-web-animations span.fragment.highlight.current-fragment {
+  background-color: var(--green-10);
+}
+</style>
+</section>
+
+<section id=colors-gone-wrong>
+<div class="color-transition fragment">
+  <div class=red>
+    <div class=sample></div><span class=label>rgb(255, 0, 0)</span>
+  </div>
+  <div class=arrow>→</div>
+  <div class=midpoint>
+    <div class="sample hide"></div>
+    <div class="sample reveal"></div>
+    <span class="label hide">rgb(?, ?, ?)</span>
+    <span class="label reveal">rgb(128, 64, 0)</span>
+  </div>
+  <div class=arrow>→</div>
+  <div class=green>
+    <div class=sample></div><span class=label>rgb(0, 128, 0)</span>
+  </div>
+</div>
+<div class="transition-demo fragment">
+  <div class=sample></div>
+  <div class=label>😧</div>
+</div>
+<style>
+#colors-gone-wrong .color-transition.fragment {
+  opacity: 1;
+  visibility: visible;
+}
+#colors-gone-wrong .color-transition .midpoint .sample.reveal {
+  background-color: rgb(128, 64, 0);
+}
+#colors-gone-wrong .color-transition .reveal,
+#colors-gone-wrong .color-transition .hide {
+  transition: opacity 0.5s;
+}
+#colors-gone-wrong .color-transition .sample.reveal {
+  opacity: 0;
+  margin-top: -110px;
+}
+#colors-gone-wrong .color-transition .label.reveal {
+  opacity: 0;
+  margin-top: -40px;
+}
+#colors-gone-wrong .color-transition.visible .reveal {
+  opacity: 1;
+}
+#colors-gone-wrong .color-transition.visible .hide {
+  opacity: 0;
+}
+#colors-gone-wrong .transition-demo {
+  margin-top: 50px;
+}
+#colors-gone-wrong .transition-demo .sample {
+  animation-name: colors-gone-wrong;
+}
+@keyframes colors-gone-wrong {
+  from { background-color: rgb(255, 0, 0); }
+  10% { background-color: rgb(255, 0, 0); }
+  90% { background-color: rgb(0, 128, 0); }
+  to { background-color: rgb(0, 128, 0); }
+}
+
+/* Re-usable parts */
+.reveal .color-transition {
+  display: flex;
+  justify-content: center;
+}
+.reveal .color-transition .sample {
+  width: 100px;
+  height: 100px;
+  margin-left: auto;
+  margin-right: auto;
+  border: 5px solid var(--neutral-1);
+  border-radius: 100px;
+}
+.reveal .color-transition .red .sample {
+  background-color: rgb(255, 0, 0);
+}
+.reveal .color-transition .green .sample {
+  background-color: rgb(0, 128, 0);
+}
+.reveal .color-transition .label {
+  display: block;
+  margin-top: 20px;
+  font-size: 30px;
+  text-align: center;
+}
+.reveal .color-transition .arrow {
+  font-size: 80px;
+  font-weight: bold;
+}
+
+.reveal .transition-demo .sample {
+  width: 150px;
+  height: 150px;
+  margin-left: auto;
+  margin-right: auto;
+  border: 10px solid var(--neutral-1);
+  border-radius: 200px;
+  animation-duration: 2s;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+  animation-direction: alternate;
+}
+.reveal .transition-demo .label {
+  margin-top: 20px;
+  font-size: 40px;
+  text-align: center;
+}
+</style>
+</section>
+
+<section id=colors-with-hsl>
+<div class=color-transition>
+  <div class=red>
+    <div class=sample></div><span class=label>hsl(0, 100%, 50%)</span>
+  </div>
+  <div class=arrow>→</div>
+  <div class=hslmidpoint>
+    <div class=sample></div><span class=label>hsl(60, 100%, 37.5%)</span>
+  </div>
+  <div class=arrow>→</div>
+  <div class=green>
+    <div class=sample></div><span class=label>hsl(120, 100%, 25%)</span>
+  </div>
+</div>
+<div class="transition-demo fragment">
+  <div class=sample></div>
+  <div class=label>❓</div>
+</div>
+<style>
+#colors-with-hsl .color-transition .hslmidpoint .sample {
+  background-color: hsl(60, 100%, 37.5%);
+}
+#colors-with-hsl .color-transition .label {
+  font-size: 25px;
+}
+#colors-with-hsl .transition-demo {
+  margin-top: 50px;
+}
+#colors-with-hsl .transition-demo .sample {
+  animation-name: colors-with-hsl;
+}
+
+@keyframes colors-with-hsl {
+  from { background-color: hsl(0, 100%, 50%); }
+  10% { background-color: hsl(0, 100%, 50%); }
+  30% { background-color: hsl(30, 100%, 43.75%); }
+  50% { background-color: hsl(60, 100%, 37.5%); }
+  70% { background-color: hsl(90, 100%, 31.25%); }
+  90% { background-color: hsl(120, 100%, 25%); }
+  to { background-color: hsl(120, 100%, 25%); }
+}
+</style>
+</section>
+
+<section id="hacking-colors">
+<h2><code>CSSTransition.setKeyframes()</code></h2>
+<pre><code class="hljs js" data-trim data-noescape>
+document.addEventListener(<span class="highlight fragment">'transitionrun'</span>, evt =&gt; {
+  <span class="highlight fragment">if (evt.propertyName !== 'fill') {</span>
+    return;
+  }
+
+<span class="highlight fragment">  const transition = evt.target
+    .getAnimations()
+    .find(animation =&gt; animation.transitionProperty === 'fill');</span>
+
+  <span class="highlight fragment">const keyframes = transition.effect.getKeyframes();</span>
+  const hslKeyframes = generateHslKeyframes(
+    keyframes[0].fill,
+    keyframes[1].fill
+  );
+
+  <span class="highlight fragment">transition.effect.setKeyframes(hslKeyframes);</span>
+});
+</code></pre>
+<style>
+#hacking-colors h2 {
+  font-size: 40px;
+}
+#hacking-colors pre code {
+  font-size: 19px;
+  max-height: none;
+}
+#hacking-colors .fragment.highlight {
+  opacity: 1;
+  visibility: visible;
+  background-color: transparent;
+}
+#hacking-colors .fragment.highlight.current-fragment {
+  background-color: var(--green-10);
+}
+</style>
+</section>
+
+<section id="color-wheelies">
+<svg class="wheelie" viewBox="-10 -10 464.4 516">
+  <!-- Main circle -->
+  <circle id="main" fill="red" cx="221.7" cy="250.5" r="114"/>
+  <!-- Swatches -->
+  <circle class="swatch -selected" fill="hsl(0, 90%, 50%)"
+    cx="221.7" cy="53.5" r="53"/>
+  <circle class="swatch" fill="hsl(60deg, 90%, 50%)"
+    cx="53.5" cy="151.18" r="53"/>
+  <circle class="swatch" fill="hsl(120deg, 80%, 50%)"
+    cx="53.5" cy="345.7" r="53"/>
+  <circle class="swatch" fill="hsl(180deg, 90%, 50%)"
+    cx="221.7" cy="442.5" r="53"/>
+  <circle class="swatch" fill="hsl(240deg, 80%, 50%)"
+    cx="390.9" cy="345.7" r="53"/>
+  <circle class="swatch" fill="hsl(300deg, 80%, 50%)"
+    cx="390.9" cy="151.18" r="53"/>
+</svg>
+<style>
+#color-wheelies .wheelie {
+  width: 400px;
+}
+#color-wheelies .swatch {
+  stroke: var(--neutral-4);
+  stroke-width: 10px;
+  stroke-opacity: 0;
+  stroke-linecap: round;
+  stroke-dasharray: 10 20;
+  cursor: pointer;
+}
+#color-wheelies .swatch:hover {
+  stroke-opacity: 0.5;
+  transition: stroke-opacity .5s;
+}
+#color-wheelies .swatch.-selected {
+  stroke-opacity: 1;
+}
+#color-wheelies #main {
+  transition: fill 1s;
+}
+</style>
+<script>
+(() => {
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', setupSwatches);
+  } else {
+    setupSwatches();
+  }
+
+  function setupSwatches() {
+    const main = document.querySelector('#color-wheelies #main');
+    const swatches = document.querySelectorAll('#color-wheelies .swatch');
+
+    for (const swatch of swatches) {
+      swatch.addEventListener('click', evt => {
+        // Remove selection from any existing swatch
+        const selected = evt.target.parentElement.querySelector(
+          '.swatch.-selected'
+        );
+        if (selected && selected !== evt.target) {
+          selected.classList.remove('-selected');
+        }
+
+        // Add to this swatch
+        evt.target.classList.add('-selected');
+
+        // Set target color
+        const targetColor = getComputedStyle(evt.target).fill;
+        main.style.fill = targetColor;
+      });
+    }
+  }
+
+  document
+    .getElementById('color-wheelies')
+    .addEventListener('transitionrun', evt => {
+      if (evt.propertyName !== 'fill') {
+        return;
+      }
+
+      const transition = evt.target
+        .getAnimations()
+        .find(animation => animation.transitionProperty === 'fill');
+      if (!transition) {
+        return;
+      }
+
+      const keyframes = transition.effect.getKeyframes();
+      const start = keyframes[0].fill;
+      const end = keyframes[1].fill;
+
+      // Implementations currently differ with regards to whether the easing
+      // goes on the keyframes or on the effect. Ultimately it should go on the
+      // effect but for now handle the case where it is on the keyframes by
+      // moving it to the effect.
+      if (keyframes[0].easing !== 'linear') {
+        transition.effect.updateTiming({ easing: keyframes[0].easing });
+      }
+
+      const hslKeyframes = generateHslKeyframes(start, end);
+      transition.effect.setKeyframes(hslKeyframes);
+    });
+
+  function generateHslKeyframes(start, end) {
+    // From https://css-tricks.com/converting-color-spaces-in-javascript/
+    const toRgba = color => {
+      const sep = color.indexOf(",") > -1 ? "," : " ";
+      return color.substr(4).split(")")[0].split(sep);
+    };
+
+    const toHsl = rgb => {
+      const r = rgb[0] / 255;
+      const g = rgb[1] / 255;
+      const b = rgb[2] / 255;
+
+      const cmin = Math.min(r,g,b);
+      const cmax = Math.max(r,g,b);
+      const delta = cmax - cmin;
+
+      let h;
+
+      if (delta == 0) {
+        h = 0;
+      } else if (cmax == r) {
+        h = ((g - b) / delta) % 6;
+      } else if (cmax == g) {
+        h = (b - r) / delta + 2;
+      } else {
+        h = (r - g) / delta + 4;
+      }
+      h = Math.round(h * 60);
+
+      if (h < 0) {
+        h += 360;
+      }
+
+      let l = (cmax + cmin) / 2;
+      let s = delta == 0 ? 0 : delta / (1 - Math.abs(2 * l - 1));
+
+      l = +(l * 100);
+      s = +(s * 100);
+
+      return [h, s, l];
+    };
+
+    const startHsl = toHsl(toRgba(start));
+    const endHsl = toHsl(toRgba(end));
+
+    const numKeyframes = 11;
+    const keyframes = [];
+    for (let i = 0; i < numKeyframes; i++) {
+      const p = i / (numKeyframes - 1);
+      const interpolate = (a, b) => (1 - p) * a + p * b;
+
+      // This is some very rough shortest path thing to make sure that instead of
+      // animating from 240deg to 0deg we go from -60deg to 0deg.
+      let startH = startHsl[0];
+      let endH = endHsl[0];
+      if (startH - endH > 180) {
+        startH -= 360;
+      } else if (endH - startH > 180) {
+        endH -= 360;
+      }
+
+      const h = interpolate(startH, endH);
+      const s = interpolate(startHsl[1], endHsl[1]);
+      const l = interpolate(startHsl[2], endHsl[2]);
+      const fill = `hsl(${h.toFixed(1)}, ${s.toFixed(1)}%, ${l.toFixed(1)}%)`;
+
+      keyframes.push({
+        offset: i / (numKeyframes - 1),
+        fill,
+      });
+    }
+
+    return keyframes;
+  }
+})();
+</script>
+</section>
+
+<!-- XXX Note example -->
+
+<section id="web-animations-support">
+<h2>Web Animations</h2>
+<table class=support-table>
+  <tr>
+    <th></th>
+    <th><img class=logo src="img/firefox-logo.svg"></th>
+    <th><img class=logo src="img/chrome-logo.svg"></th>
+    <th><img class=logo src="img/safari-logo.svg"></th>
+  </tr>
+  <tr>
+    <td>Element.animate()</td>
+    <td class=ok>48+</td>
+    <td class=ok>36+</td>
+    <td class=nearly>3月？</td>
+  </tr>
+  <tr>
+    <td>getAnimations()</td>
+    <td class=nearly>Nightly, 75+</td>
+    <td class=nearly>Canary, 4月？</td>
+    <td class=nearly>3月？</td>
+  </tr>
+</table>
+<style>
+#web-animations-support .support-table {
+  font-size: 30px;
+}
+#web-animations-support .support-table tr:nth-child(2) {
+  border-bottom: var(--green-dark) dotted 2px;
+}
+#web-animations-support .support-table th,
+#web-animations-support .support-table td {
+  border: none;
+}
+#web-animations-support .support-table th:not(:first-child),
+#web-animations-support .support-table td:not(:first-child) {
+  text-align: center;
+}
+#web-animations-support .support-table td.ok {
+  background: var(--green-10);
+}
+#web-animations-support .support-table td.nearly {
+  background: hsl(48, 95%, 90%);
+}
+#web-animations-support .support-table .logo {
+  width: 100px;
+  height: 100px;
+  margin: 0;
+  margin-bottom: 10px;
+  border: none;
+  box-shadow: none;
+  background: transparent;
+  vertical-align: text-bottom;
 }
 </style>
 </section>
