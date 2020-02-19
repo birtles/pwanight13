@@ -870,7 +870,7 @@ button.onclick = () => {
   data-transition="fade-out">
 <div class="side-by-side">
   <pre><code class="hljs js" data-trim data-noescape>
-button.onclick = () => {
+button.onclick = () =&gt; {
   // パネルを作る
   const panel = document.createElement('div');
   ...
@@ -878,7 +878,7 @@ button.onclick = () => {
   // アニメーションさせる
   panel.style.transform = 'scale(0)';
   panel.style.transition = 'transform .5s';
-<span class="highlight">  requestAnimationFrame(() => {
+<span class="highlight">  requestAnimationFrame(() =&gt; {
     panel.style.transform = 'scale(1)';
   });</span>
 };
@@ -887,6 +887,14 @@ button.onclick = () => {
     <button class="button">Button</button>
   </div>
 </div>
+<div
+  class=footnote>たまにChromeでtransitionが走るけど、Chromeのエンジニアによると、これはChromeのバグです。</div>
+<style>
+#css-transitions-attempt-one .footnote {
+  color: var(--neutral-6);
+  font-size: 18px;
+}
+</style>
 <script>
 (() => {
   const button = document.querySelector(
@@ -1907,7 +1915,7 @@ const buttonClick = React.useCallback(() => {
 
 <section id="web-animations-is-here" data-background="var(--green-10)">
   <h2>③ <span class=highlight>Web Animations API</span><br>
-    を使ってみて</h2>
+    を使ってみてください</h2>
 <style>
 #web-animations-is-here .highlight {
   color: var(--red-6);
@@ -1941,6 +1949,9 @@ button.onclick = () => {
     <button class="button">Button</button>
   </div>
 </div>
+<div class=compat-warning>
+  このブラウザーは <code>Element.animate</code> を対応していないようです。
+</div>
 <script>
 (() => {
   const button = document.querySelector('#web-animations-button .button');
@@ -1971,6 +1982,14 @@ button.onclick = () => {
     );
   };
 })();
+
+document.addEventListener('DOMContentLoaded', () => {
+  if (!('animate' in document.body)) {
+    document.querySelector(
+      '#web-animations-button .compat-warning'
+    ).style.display = 'block';
+  }
+});
 </script>
 <style>
 #web-animations-button .replace {
@@ -1979,6 +1998,15 @@ button.onclick = () => {
 #web-animations-button .fragment.ontop {
   position: absolute;
   top: 0;
+}
+#web-animations-button .compat-warning {
+  font-size: 20px;
+  color: var(--red-2);
+  background: var(--red-10);
+  border-radius: 1em;
+  padding-top: .2em;
+  padding-bottom: .2em;
+  display: none;
 }
 </style>
 </section>
@@ -2012,6 +2040,9 @@ React.useLayoutEffect(() =&gt; {
   </code></pre>
   <div class="panel-container">
   </div>
+</div>
+<div class=compat-warning>
+  このブラウザーは <code>Animation.finished</code> を対応していないようです。
 </div>
 <script>
 (() => {
@@ -2075,6 +2106,24 @@ React.useLayoutEffect(() =&gt; {
   );
   ReactDOM.render(React.createElement(PopupButton), container);
 })();
+
+function supportsAnimationFinished() {
+  if (!('animate' in document.body)) {
+    return false;
+  }
+
+  const testElem = document.createElement('div');
+  const animation = testElem.animate({});
+  return 'finished' in animation;
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  if (!supportsAnimationFinished()) {
+    document.querySelector(
+      '#web-animations-meets-react .compat-warning'
+    ).style.display = 'block';
+  }
+});
 </script>
 <style>
 #web-animations-meets-react pre {
@@ -2087,6 +2136,15 @@ React.useLayoutEffect(() =&gt; {
 }
 #web-animations-meets-react .fragment.highlight.current-fragment {
   background-color: var(--green-10);
+}
+#web-animations-meets-react .compat-warning {
+  font-size: 20px;
+  color: var(--red-2);
+  background: var(--red-10);
+  border-radius: 1em;
+  padding-top: .2em;
+  padding-bottom: .2em;
+  display: none;
 }
 </style>
 </section>
@@ -2331,17 +2389,20 @@ document.addEventListener(<span class="highlight fragment">'transitionrun'</span
   <!-- Swatches -->
   <circle class="swatch -selected" fill="hsl(0, 90%, 50%)"
     cx="221.7" cy="53.5" r="53"/>
-  <circle class="swatch" fill="hsl(60deg, 90%, 50%)"
+  <circle class="swatch" fill="hsl(60, 90%, 50%)"
     cx="53.5" cy="151.18" r="53"/>
-  <circle class="swatch" fill="hsl(120deg, 80%, 50%)"
+  <circle class="swatch" fill="hsl(120, 80%, 50%)"
     cx="53.5" cy="345.7" r="53"/>
-  <circle class="swatch" fill="hsl(180deg, 90%, 50%)"
+  <circle class="swatch" fill="hsl(180, 90%, 50%)"
     cx="221.7" cy="442.5" r="53"/>
-  <circle class="swatch" fill="hsl(240deg, 80%, 50%)"
+  <circle class="swatch" fill="hsl(240, 80%, 50%)"
     cx="390.9" cy="345.7" r="53"/>
-  <circle class="swatch" fill="hsl(300deg, 80%, 50%)"
+  <circle class="swatch" fill="hsl(300, 80%, 50%)"
     cx="390.9" cy="151.18" r="53"/>
 </svg>
+<div class=compat-warning>
+  このブラウザーは <code>getAnimations</code>もしくは<code>CSSTransition.setKeyframes</code>を対応していないようです。
+</div>
 <style>
 #color-wheelies .wheelie {
   width: 400px;
@@ -2363,6 +2424,15 @@ document.addEventListener(<span class="highlight fragment">'transitionrun'</span
 }
 #color-wheelies #main {
   transition: fill 1s;
+}
+#color-wheelies .compat-warning {
+  font-size: 20px;
+  color: var(--red-2);
+  background: var(--red-10);
+  border-radius: 1em;
+  padding-top: .2em;
+  padding-bottom: .2em;
+  display: none;
 }
 </style>
 <script>
@@ -2502,10 +2572,58 @@ document.addEventListener(<span class="highlight fragment">'transitionrun'</span
     return keyframes;
   }
 })();
+
+function supportsSetKeyframes() {
+  if (!'getAnimations' in document.body) {
+    return false;
+  }
+
+  try {
+    const testElem = document.createElement('div');
+    document.body.append(testElem);
+    testElem.style.transition = 'fill 1s';
+    testElem.style.fill = 'red';
+    getComputedStyle(testElem).fill;
+    testElem.style.fill = 'green';
+    const animations = testElem.getAnimations();
+    if (animations.length !== 1) {
+      testElem.remove();
+      return false;
+    }
+    const transition = animations[0];
+    transition.effect.setKeyframes([
+      {
+        offset: 0,
+        fill: 'green',
+      },
+      {
+        offset: 0.5,
+        fill: 'yellow',
+      },
+      {
+        offset: 1,
+        fill: 'red',
+      },
+    ]);
+    const result =
+      transition.effect.getKeyframes().length === 3 &&
+      transition.effect.getKeyframes()[1].fill === 'yellow';
+    testElem.remove();
+    return result;
+  } catch (e) {
+    return false;
+  }
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  if (!supportsSetKeyframes()) {
+    document.querySelector(
+      '#color-wheelies .compat-warning'
+    ).style.display = 'block';
+  }
+});
 </script>
 </section>
-
-<!-- XXX Note example -->
 
 <section id="web-animations-support">
 <h2>Web Animations</h2>
@@ -2525,13 +2643,16 @@ document.addEventListener(<span class="highlight fragment">'transitionrun'</span
   <tr>
     <td>getAnimations()</td>
     <td class=nearly>Nightly, 75+</td>
-    <td class=nearly>Canary, 4月？</td>
+    <td class=nearly><span class=wordy>Experimental Web Platform features</span>, 4月？</td>
     <td class=nearly>3月？</td>
   </tr>
 </table>
 <style>
 #web-animations-support .support-table {
   font-size: 30px;
+}
+#web-animations-support .support-table th:not(:first-child) {
+  width: 200px;
 }
 #web-animations-support .support-table tr:nth-child(2) {
   border-bottom: var(--green-dark) dotted 2px;
@@ -2549,6 +2670,9 @@ document.addEventListener(<span class="highlight fragment">'transitionrun'</span
 }
 #web-animations-support .support-table td.nearly {
   background: hsl(48, 95%, 90%);
+}
+#web-animations-support .support-table .wordy {
+  font-size: 20px;
 }
 #web-animations-support .support-table .logo {
   width: 100px;
@@ -2680,8 +2804,9 @@ react.render(
   font-size: 25px;
 }
 #naive-single-page-app-explained .side-by-side img {
-  width: 700px;
+  width: 500px;
   margin-left: 50px;
+  flex-basis: content;
 }
 </style>
 </section>
@@ -2766,7 +2891,7 @@ react.render(
     <li>③ <span class=highlight>Web Animations API</span> を使ってみて
       <span class=application><code>Element.animate</code>,
         <code>getAnimations</code></span>
-    <li><span class=bonus>Bonus</span> アニメーションがすぐできるように<span class=highlight>DOMを常備する</span>
+    <li class=bonus-row><span class=bonus>Bonus</span> アニメーションがすぐできるように<span class=highlight>DOMを常備する</span>
   </ul>
 <style>
 #summing-up ul {
@@ -2801,6 +2926,9 @@ react.render(
   font-weight: 600;
   color: var(--red-6);
   text-shadow: var(--red-2) 0px 1px 1px;
+}
+#summing-up .bonus-row {
+  font-size: 90%;
 }
 #summing-up .bonus {
   font-weight: bold;
