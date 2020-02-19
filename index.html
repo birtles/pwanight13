@@ -20,7 +20,7 @@
 <meta name="twitter:site" content="@brianskold">
 
 <meta name="apple-mobile-web-app-title" content="PWA開発者の知るべきアニメーションの3個">
-<meta name="theme-color" content="#3d6bd6">
+<meta name="theme-color" content="#e1f8a5">
 <meta name="apple-mobile-web-app-capable" content="yes" />
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
 <meta name="viewport"
@@ -360,7 +360,7 @@ document.getElementsByTagName('head')[0].appendChild(link);
 </section>
 
 <section id="transitions-are-hard-ok" data-background="var(--green-10)">
-  <h2>① CSS Transitionを発生させるため、<span class=highlight>「スタイルの変更」</span></h2>
+  <h2>① CSS Transitionを発生させるための<span class=highlight>「スタイルの変更」</span></h2>
 <style>
 #transitions-are-hard-ok .highlight {
   color: var(--red-6);
@@ -752,7 +752,7 @@ button.onclick = () => {
       <code>+</code>
       <span class="prop-name">transition-delay</span>
       <code>&gt;</code> <span class="prop-value">0s</span>&hellip;
-    <li><span class="action">&rArr; transitionを生成する！🎉</span>
+    <li><span class="action">&rarr; transitionを生成する！🎉</span>
   </ul>
 </div>
 <style>
@@ -835,9 +835,10 @@ button.onclick = () => {
 </div>
 <div class="popup fragment" data-fragment-index="3">
   <ul>
-    <li><span class="prop-name">transform</span> は <span
-              class="prop-value">scale(1)</span>.
-    <li>前回の <span class="prop-name">transform</span> は... ない.
+    <li><span class="prop-name">transform</span> の計算値は <span
+              class="prop-value">scale(1)</span>。
+    <li>前回の <span class="prop-name">transform</span> の計算値は&hellip;
+      存在しない（単純に上書きされる）。
   </ul>
 </div>
 <style>
@@ -965,9 +966,9 @@ button.onclick = () => {
 </div>
 <div class="popup fragment" data-fragment-index="2">
   <ul>
-    <li><span class="prop-name">transform</span> は <span
-              class="prop-value">scale(1)</span>.
-    <li>前回の <span class="prop-name">transform</span> は... まだない.
+    <li><span class="prop-name">transform</span> の計算値は <span
+              class="prop-value">scale(1)</span>。
+    <li>前回の <span class="prop-name">transform</span> の計算値は&hellip; まだ存在しない。
   </ul>
 </div>
 <style>
@@ -1108,11 +1109,11 @@ button.onclick = () => {
 </div>
 <div class="popup fragment">
   <ul>
-    <li><span class="prop-name">transform</span> は <span
-              class="prop-value">scale(1)</span>.
-    <li>前回の <span class="prop-name">transform</span> は
-        <span class="prop-value">scale(0)</span>.
-    <li><span class="action">&rArr; transitionを生成する！🎉</span>
+    <li><span class="prop-name">transform</span> の計算値は <span
+              class="prop-value">scale(1)</span>。
+    <li>前回の <span class="prop-name">transform</span> の計算値は
+        <span class="prop-value">scale(0)</span>。
+    <li><span class="action">&rarr; transitionを生成する！🎉</span>
   </ul>
 </div>
 <style>
@@ -1254,10 +1255,10 @@ button.onclick = () => {
 </div>
 <div class="popup fragment">
   <ul>
-    <li><span class="prop-name">transform</span> は <span
-              class="prop-value">scale(1)</span>.
-    <li>前回の <span class="prop-name">transform</span> は <span
-                       class="prop-value">scale(0)</span>.
+    <li><span class="prop-name">transform</span> の計算値は <span
+              class="prop-value">scale(1)</span>。
+    <li>前回の <span class="prop-name">transform</span> の計算値は <span
+                       class="prop-value">scale(0)</span>。
     <li><span class="action">&rarr; transitionを生成する！🎉</span>
   </ul>
 </div>
@@ -1474,7 +1475,7 @@ const PopupButton = () => {
 </section>
 
 <section id="transitions-can-disappear" data-background="var(--green-10)">
-  <h2>② CSS Transitionsに<br><span class=highlight>終わらない</span>こともある</h2>
+  <h2>② CSS Transitionsが<br><span class=highlight>終わらない</span>こともある</h2>
 <style>
 #transitions-can-disappear .highlight {
   color: var(--red-6);
@@ -2748,12 +2749,12 @@ react.render(
 <section id="summing-up" data-background="var(--green-10)">
   <h2>まとめ</h2>
   <ul>
-    <li>① CSS Transitionを発生させるため、<span
+    <li>① CSS Transitionを発生させるためには<span
         class=highlight>スタイルの変更</span>が必要
       <span class=application><code>requestAnimationFrame</code>,
         <code>getComputedStyle</code>, CSS animations,
         <code>Element.animate</code></span>
-    <li>② CSS Transitionsに<span class=highlight>終わらない</span>こともある
+    <li>② CSS Transitionsが<span class=highlight>終わらない</span>こともある
       <span class=application><code>transitioncancel</code>,
         <code>transitionrun</code>, <code>Animation.finished</code></span>
     <li>③ <span class=highlight>Web Animations API</span> を使ってみて
