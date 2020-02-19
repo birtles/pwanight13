@@ -2813,10 +2813,19 @@ react.render(
 <section id="more-new-stuffs" data-background="var(--green-10)">
   <h2>その他の<span class=highlight>Webブラウザ最前線</code></h2>
   <ul>
-    <li><code>offset-path</code>
-    <li><code>prefers-reduced-motion</code>
-    <li><code>steps(5, jump-none)</code>
-    <li><code>translate</code>, <code>scale</code>, <code>rotate</code>
+    <li><a href="https://developer.mozilla.org/en-US/docs/Web/CSS/offset-path"
+           target="_blank"><code>offset-path</code></a>
+    <li><a href="https://developer.mozilla.org/en-US/docs/Web/CSS/@media/prefers-reduced-motion"
+          target="_blank"><code>prefers-reduced-motion</code></a>
+    <li><code>steps(5,
+        <a href="https://drafts.csswg.org/css-easing-1/#valdef-steps-jump-none"
+          target="_blank">jump-none</a>)</code>
+    <li><a href="https://developer.mozilla.org/en-US/docs/Web/CSS/translate"
+        target="_blank"><code>translate</code></a>,
+      <a href="https://developer.mozilla.org/en-US/docs/Web/CSS/scale"
+        target="_blank"><code>scale</code></a>,
+      <a href="https://developer.mozilla.org/en-US/docs/Web/CSS/rotate"
+        target="_blank"><code>rotate</code></a>
   </ul>
 <style>
 #more-new-stuffs ul {
@@ -2834,6 +2843,11 @@ react.render(
   border-radius: 1em;
   padding: .2em .7em;
   box-shadow: var(--green-light) 0 1px 1px;
+}
+#more-new-stuffs a,
+#more-new-stuffs a:visited {
+  color: var(--green-dark);
+  text-decoration: underline dotted 2px;
 }
 #more-new-stuffs .highlight {
   font-weight: 600;
